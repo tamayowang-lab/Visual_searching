@@ -1,0 +1,1706 @@
+{
+  "scope": "Timing comparison only; spatial/peripheral/EIG policy unchanged",
+  "fit": "Population-level train CRPS; validation one-standard-error simplicity rule; no held-out test fitting",
+  "threshold_fixed": 1.0,
+  "priority_gain_fixed": 2.0,
+  "sensory_tau_fixed_ms": 250.0,
+  "repetitions": 6,
+  "training_contexts": 263,
+  "validation_contexts": 50,
+  "training_images": [
+    "000000009527.jpg",
+    "000000104844.jpg",
+    "000000318999.jpg",
+    "000000331978.jpg",
+    "000000384964.jpg",
+    "000000405141.jpg",
+    "000000465457.jpg",
+    "000000476642.jpg",
+    "000000526794.jpg",
+    "000000534024.jpg",
+    "000000566583.jpg",
+    "000000568963.jpg"
+  ],
+  "validation_images": [
+    "000000123762.jpg",
+    "000000209746.jpg",
+    "000000304716.jpg",
+    "000000441296.jpg",
+    "000000553851.jpg",
+    "000000570117.jpg"
+  ],
+  "models": {
+    "heuristic_lognormal": {
+      "parameters": {
+        "dt_ms": 20.0,
+        "threshold": 1.0,
+        "urgency": 4.0,
+        "priority_gain": 2.0,
+        "diffusion": 0.2,
+        "urgency_ramp": 0.0,
+        "preparation_ms": 30.0,
+        "hold_strength": 0.5,
+        "sensory_tau_ms": 250.0,
+        "safety_timeout_ms": 3000.0,
+        "heuristic_scale": 0.6,
+        "heuristic_sigma": 0.35,
+        "selection_mode": "softmax",
+        "execution_enabled": true
+      },
+      "training_crps_ms": 51.383109121641375,
+      "validation_crps_ms": 63.001827141614264,
+      "validation_image_se_ms": 7.9387999521683374,
+      "validation_image_losses": {
+        "000000570117.jpg": 74.29722821204284,
+        "000000123762.jpg": 44.202069209038044,
+        "000000209746.jpg": 90.87898871809799,
+        "000000553851.jpg": 70.98941714461135,
+        "000000441296.jpg": 39.694044371889916,
+        "000000304716.jpg": 57.949215194005475
+      }
+    },
+    "accumulator": {
+      "parameters": {
+        "dt_ms": 20.0,
+        "threshold": 1.0,
+        "urgency": 2.5,
+        "priority_gain": 2.0,
+        "diffusion": 0.4,
+        "urgency_ramp": 0.0,
+        "preparation_ms": 20.0,
+        "hold_strength": 0.0,
+        "sensory_tau_ms": 250.0,
+        "safety_timeout_ms": 3000.0,
+        "heuristic_scale": 1.0,
+        "heuristic_sigma": 0.18,
+        "selection_mode": "softmax",
+        "execution_enabled": true
+      },
+      "training_crps_ms": 56.88076065933015,
+      "validation_crps_ms": 56.347968291238,
+      "validation_image_se_ms": 7.122095392170255,
+      "validation_image_losses": {
+        "000000570117.jpg": 39.84367118487687,
+        "000000123762.jpg": 62.13549943348938,
+        "000000209746.jpg": 82.31509138564772,
+        "000000553851.jpg": 48.60026636108691,
+        "000000441296.jpg": 37.54046821883913,
+        "000000304716.jpg": 67.65281316348796
+      }
+    },
+    "accumulator_hold": {
+      "parameters": {
+        "dt_ms": 20.0,
+        "threshold": 1.0,
+        "urgency": 4.0,
+        "priority_gain": 2.0,
+        "diffusion": 0.4,
+        "urgency_ramp": 0.0,
+        "preparation_ms": 20.0,
+        "hold_strength": 0.6,
+        "sensory_tau_ms": 250.0,
+        "safety_timeout_ms": 3000.0,
+        "heuristic_scale": 1.0,
+        "heuristic_sigma": 0.18,
+        "selection_mode": "softmax",
+        "execution_enabled": true
+      },
+      "training_crps_ms": 55.36935687173125,
+      "validation_crps_ms": 53.32652655171061,
+      "validation_image_se_ms": 5.268520885574112,
+      "validation_image_losses": {
+        "000000570117.jpg": 42.6861166458665,
+        "000000123762.jpg": 56.870046014890505,
+        "000000209746.jpg": 62.531093473288855,
+        "000000553851.jpg": 53.221371945914036,
+        "000000441296.jpg": 34.71554727739151,
+        "000000304716.jpg": 69.93498395291229
+      }
+    }
+  },
+  "search": {
+    "heuristic_lognormal": [
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.2,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 30.0,
+          "hold_strength": 0.5,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 0.6,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 53.81166819873001
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.2,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 30.0,
+          "hold_strength": 0.5,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 0.6,
+          "heuristic_sigma": 0.35,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 51.383109121641375,
+        "validation_crps_ms": 63.001827141614264,
+        "validation_image_se_ms": 7.9387999521683374,
+        "validation_image_losses": {
+          "000000570117.jpg": 74.29722821204284,
+          "000000123762.jpg": 44.202069209038044,
+          "000000209746.jpg": 90.87898871809799,
+          "000000553851.jpg": 70.98941714461135,
+          "000000441296.jpg": 39.694044371889916,
+          "000000304716.jpg": 57.949215194005475
+        }
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.2,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 30.0,
+          "hold_strength": 0.5,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 0.6,
+          "heuristic_sigma": 0.55,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 53.010020517980244
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.2,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 30.0,
+          "hold_strength": 0.5,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 0.8,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 73.08019962126296
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.2,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 30.0,
+          "hold_strength": 0.5,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 0.8,
+          "heuristic_sigma": 0.35,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 66.28137830776912
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.2,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 30.0,
+          "hold_strength": 0.5,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 0.8,
+          "heuristic_sigma": 0.55,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 63.98891652568633
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.2,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 30.0,
+          "hold_strength": 0.5,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 113.52596452769068
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.2,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 30.0,
+          "hold_strength": 0.5,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.35,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 97.67736979766589
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.2,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 30.0,
+          "hold_strength": 0.5,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.55,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 87.34145212011266
+      }
+    ],
+    "accumulator": [
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 80.81818994625378
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 94.80288956187671
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 65.8748641246707
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 76.24267445250231
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 56.88076065933015,
+        "validation_crps_ms": 56.347968291238,
+        "validation_image_se_ms": 7.122095392170255,
+        "validation_image_losses": {
+          "000000570117.jpg": 39.84367118487687,
+          "000000123762.jpg": 62.13549943348938,
+          "000000209746.jpg": 82.31509138564772,
+          "000000553851.jpg": 48.60026636108691,
+          "000000441296.jpg": 37.54046821883913,
+          "000000304716.jpg": 67.65281316348796
+        }
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 61.67500716944351
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 60.905532625635495
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 64.9899785933704
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 59.217202142626746
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 59.79004489899841
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 60.90581703390108
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 57.96302718383355
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 65.57652148271823
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 61.588572284895655
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 68.98029347099325
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 62.49130016828451
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 73.78056791138793
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 64.94761938993256
+      }
+    ],
+    "accumulator_hold": [
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 80.81818994625378
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 97.00545780921773
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 118.35567326642733
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 94.80288956187671
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 112.8296322977651
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 135.29445964640533
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 65.8748641246707
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 75.16460013575471
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 90.12383871469439
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 76.24267445250231
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 88.35007425587814
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 105.56061836644714
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 56.88076065933015
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 59.01727502620988
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 66.22193533075155
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 61.67500716944351
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 67.39466996129937
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 2.5,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 77.68714032859268
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 60.905532625635495
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 63.89972717109878
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 74.2780324561861
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 64.9899785933704
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 72.79799973189337
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 86.75274711448196
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 59.217202142626746
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 58.1416964294753
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 61.80703578041514
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 59.79004489899841
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 62.38794701654473
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 70.31163791352232
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 60.90581703390108
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 57.24509875495509
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 55.36935687173125,
+        "validation_crps_ms": 53.32652655171061,
+        "validation_image_se_ms": 5.268520885574112,
+        "validation_image_losses": {
+          "000000570117.jpg": 42.6861166458665,
+          "000000123762.jpg": 56.870046014890505,
+          "000000209746.jpg": 62.531093473288855,
+          "000000553851.jpg": 53.221371945914036,
+          "000000441296.jpg": 34.71554727739151,
+          "000000304716.jpg": 69.93498395291229
+        }
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 57.96302718383355
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 57.21553337691588
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 4.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 59.030430889924276
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 65.57652148271823
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 60.995389747771064
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 59.24937104031607
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 61.588572284895655
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 60.14940045202775
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.1,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 62.91728231883431
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 68.98029347099325
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 62.73502692823043
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 58.26758029004227
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 62.49130016828451
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 59.2758745928987
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.25,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 58.330382955436185
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 73.78056791138793
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 66.9129043892061
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 20.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 60.446037987045855
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.0,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 64.94761938993256
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.3,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 60.53332999797027
+      },
+      {
+        "parameters": {
+          "dt_ms": 20.0,
+          "threshold": 1.0,
+          "urgency": 6.0,
+          "priority_gain": 2.0,
+          "diffusion": 0.4,
+          "urgency_ramp": 0.0,
+          "preparation_ms": 40.0,
+          "hold_strength": 0.6,
+          "sensory_tau_ms": 250.0,
+          "safety_timeout_ms": 3000.0,
+          "heuristic_scale": 1.0,
+          "heuristic_sigma": 0.18,
+          "selection_mode": "softmax",
+          "execution_enabled": true
+        },
+        "training_crps_ms": 57.15894312491452
+      }
+    ]
+  },
+  "best_validation_variant": "accumulator_hold",
+  "one_se_cutoff_ms": 58.59504743728472,
+  "selected_variant": "accumulator",
+  "selection_order": [
+    "heuristic_lognormal",
+    "accumulator",
+    "accumulator_hold"
+  ]
+}

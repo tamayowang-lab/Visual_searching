@@ -1,0 +1,753 @@
+{
+  "status": "Held-out evaluation of user-supplied records; inspect dataset provenance",
+  "dataset": {
+    "schema_version": 1,
+    "dataset_name": "COCO-Search18 target-present exploratory internal split",
+    "synthetic": false,
+    "coordinate_units": "pixels",
+    "initial_fixation_included": true,
+    "task": "target-present categorical search",
+    "official_source_split": "released training split; these are NOT official benchmark test results",
+    "split_policy": "24 locally available originals ordered by SHA256(rgb-observer-phase2:filename); first 12 train, next 6 validation, final 6 test; no fitting in this phase",
+    "timing": "Model budget conditioned on each recorded RT. Human durations truncated at RT using cumulative fixation time; saccade gaps unavailable. This does not predict response time.",
+    "geometry_notes": "Mirror aspect-preserving black padding to 1680x1050, then uniform 640x400 rescale. Coordinates scaled identically. Original stimulus pipeline may differ; use official display assets for confirmation.",
+    "geometry_audit": {
+      "000000476642.jpg": {
+        "source_size": [
+          640,
+          480
+        ],
+        "padding_xy": [
+          64,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "37c5cac884793178b8403ee1d192a2a52f73da9c19b0a822afdf9f2a768d2763"
+      },
+      "000000331978.jpg": {
+        "source_size": [
+          640,
+          480
+        ],
+        "padding_xy": [
+          64,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "c9404241e40a449c1b6587f33c29cc87149ebd9c2d17b3679501c8f8d40fe742"
+      },
+      "000000104844.jpg": {
+        "source_size": [
+          640,
+          428
+        ],
+        "padding_xy": [
+          22,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "62e675fad60d95226232a48187d096887444b3935867cc7dadb027d48104b17c"
+      },
+      "000000009527.jpg": {
+        "source_size": [
+          640,
+          480
+        ],
+        "padding_xy": [
+          64,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "1bbe7c9e42b6e7bcf2004f3b528196926fecc1fec64d441e873e60e46ac9fa84"
+      },
+      "000000384964.jpg": {
+        "source_size": [
+          640,
+          425
+        ],
+        "padding_xy": [
+          20,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "f3b1cfc3fc92a86e7900520e52488776ac8899f8031d8ef064b2a3ba03f2fab2"
+      },
+      "000000526794.jpg": {
+        "source_size": [
+          640,
+          425
+        ],
+        "padding_xy": [
+          20,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "65b49019a023d3f920a8c652b8416e6236d1bbe0d406de88382200752316d0bb"
+      },
+      "000000566583.jpg": {
+        "source_size": [
+          640,
+          480
+        ],
+        "padding_xy": [
+          64,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "506373e0f62bce61b8375f222c7fddaea509d2a6c2f8a47b19eb01a34005dd73"
+      },
+      "000000405141.jpg": {
+        "source_size": [
+          640,
+          427
+        ],
+        "padding_xy": [
+          21,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "d66591d06ab087f1be4b463696ec2516306d887e0f0eeaf375564942c429b4ab"
+      },
+      "000000534024.jpg": {
+        "source_size": [
+          640,
+          480
+        ],
+        "padding_xy": [
+          64,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "daa189886a4de77bc97e8fc9544def4734f29ef697e3b55397bfb7cd79d8d1d0"
+      },
+      "000000465457.jpg": {
+        "source_size": [
+          640,
+          480
+        ],
+        "padding_xy": [
+          64,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "c70f87b01f4c0583765160be1c317e69384b757999d33303d451956b4bd5db87"
+      },
+      "000000568963.jpg": {
+        "source_size": [
+          640,
+          359
+        ],
+        "padding_xy": [
+          0,
+          20
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "ff080eda4cdaf59f192ae2a0b724c9ba037f71e381b1ff4122f5e5c872a19276"
+      },
+      "000000318999.jpg": {
+        "source_size": [
+          640,
+          425
+        ],
+        "padding_xy": [
+          20,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "0a5e4632100a92e46a644224b6d0297f7c85269ffaac2588abf7186c87784c3b"
+      },
+      "000000441296.jpg": {
+        "source_size": [
+          640,
+          480
+        ],
+        "padding_xy": [
+          64,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "4de8cafebf3d0b420c3ec36566d1e785fd610f1fe40616fbf73b260750f626f7"
+      },
+      "000000304716.jpg": {
+        "source_size": [
+          640,
+          473
+        ],
+        "padding_xy": [
+          58,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "fb2d8190ac6ceb7c9be0421bf3c1aff40ed379fe09db45068468e61b2d33635e"
+      },
+      "000000553851.jpg": {
+        "source_size": [
+          640,
+          458
+        ],
+        "padding_xy": [
+          46,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "9a6cd01263017b6f7b18a26d3f5e1132db256716462d25cef38a89400f25eff8"
+      },
+      "000000209746.jpg": {
+        "source_size": [
+          640,
+          428
+        ],
+        "padding_xy": [
+          22,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "90466f8c411c67de7bfdc5a3796ac7c4bf6d196d88c3a498bcc8c1994ccce338"
+      },
+      "000000123762.jpg": {
+        "source_size": [
+          500,
+          375
+        ],
+        "padding_xy": [
+          50,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "bd3935dcf90d99e73071a3f1bed17a59aa73acba24befaca74662062cc4a55b3"
+      },
+      "000000570117.jpg": {
+        "source_size": [
+          640,
+          480
+        ],
+        "padding_xy": [
+          64,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "11676e83e8bf0b51e99eb07690f7c11e1f0b536c24259bdf7dedd71062f99fff"
+      },
+      "000000559395.jpg": {
+        "source_size": [
+          640,
+          478
+        ],
+        "padding_xy": [
+          62,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "fda09e19922f3c5a9f0549f3c05a0bf1657d46f10c37038a42831deb8d37eda9"
+      },
+      "000000354746.jpg": {
+        "source_size": [
+          640,
+          480
+        ],
+        "padding_xy": [
+          64,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "fb862b11dd645ef7e6c2b4b6ad5c370614cccb1d711a9afeddec533a645cc3fb"
+      },
+      "000000535732.jpg": {
+        "source_size": [
+          640,
+          397
+        ],
+        "padding_xy": [
+          0,
+          1
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "d096e6c2a0ee6563f6a1628c7929144b65823c648d4171c79ad0f94907db4452"
+      },
+      "000000078274.jpg": {
+        "source_size": [
+          640,
+          360
+        ],
+        "padding_xy": [
+          0,
+          20
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "440d11142853bf7e55a6fd9a902c8fc1f3160fb150178b64eac70aa6ef6f01e0"
+      },
+      "000000167180.jpg": {
+        "source_size": [
+          640,
+          480
+        ],
+        "padding_xy": [
+          64,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "c700117690b1bcd807deda06657a57a625d65d94707a88d592427b115da9688c"
+      },
+      "000000206662.jpg": {
+        "source_size": [
+          500,
+          333
+        ],
+        "padding_xy": [
+          16,
+          0
+        ],
+        "original_display": [
+          1680,
+          1050
+        ],
+        "inference_display": [
+          640,
+          400
+        ],
+        "coordinate_scale": 0.38095238095238093,
+        "source_sha256": "af3c70d09f117e122022a25ebf2217729bc98764709a12af57270f0e6f5c3eb5"
+      }
+    },
+    "source_repository": "https://github.com/RosenholtzLab/CCP_CSHL",
+    "source_commit": "401baae571e325eacb000f21783463d2343609ab",
+    "exclusions": {
+      "incorrect_trial": 11
+    }
+  },
+  "split": "test",
+  "images": 6,
+  "participants": 10,
+  "trials": 60,
+  "seeds": [
+    11,
+    23,
+    37
+  ],
+  "variants": [
+    "full",
+    "random_walk",
+    "without_semantics",
+    "without_information",
+    "random_center",
+    "center",
+    "salience",
+    "salience_ior",
+    "without_depth",
+    "without_memory",
+    "without_uncertainty",
+    "without_novelty",
+    "without_history",
+    "without_exploration"
+  ],
+  "depth_tested": true,
+  "depth_note": "Relative-depth hypothesis; behavioral agreement does not establish physical accuracy",
+  "aggregation": "Seeds averaged within image/participant; summary weights images equally. Participant summaries separate. No significance claims from seed repetitions.",
+  "metrics": {
+    "NSS": "higher better; undefined for constant maps",
+    "AUC": "deterministic all nonfixated pixels as negatives; not branded AUC-Judd",
+    "spatial_DTW": "custom, lower better, not MultiMatch",
+    "amplitude": "pixels; angular amplitudes require calibrated display geometry"
+  },
+  "perception_configuration": {
+    "cache_directory": "/workspace/work/rgb-phase2/cache",
+    "depth": {
+      "checkpoint": "/workspace/.cache/torch/hub/checkpoints/midas_v21_small_256.pt",
+      "provider": "midas_small",
+      "revision": "454597711a62eabcbf7d1e89f3fb9f569051ac9b",
+      "source": "/workspace/.cache/torch/hub/isl-org_MiDaS_454597711a62eabcbf7d1e89f3fb9f569051ac9b"
+    },
+    "objects": {
+      "checkpoint": "/workspace/.cache/torch/hub/checkpoints/ssdlite320_mobilenet_v3_large_coco-a79551df.pth",
+      "context_scale": 3.0,
+      "provider": "torchvision_ssdlite",
+      "threshold": 0.3
+    }
+  },
+  "initial_convention": true,
+  "timing": "record viewing_duration_ms if supplied; otherwise configured budget; never next-fixation coordinates",
+  "summary": {
+    "center": {
+      "nss": 0.169568291,
+      "auc_fixation_vs_nonfixation_pixels": 0.5269120694,
+      "heatmap_correlation": 0.0179029075,
+      "spatial_dtw": 0.1444489464,
+      "model_refixation_rate": 0.0040343915,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 1.8666666667,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 265.1461111111,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 177.7713675389,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "full": {
+      "nss": 0.0893398098,
+      "auc_fixation_vs_nonfixation_pixels": 0.5165431634,
+      "heatmap_correlation": 0.0057045307,
+      "spatial_dtw": 0.1784180823,
+      "model_refixation_rate": 0.0,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 1.8333333333,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 268.987962963,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 219.1283311986,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "random_center": {
+      "nss": -0.0970915641,
+      "auc_fixation_vs_nonfixation_pixels": 0.5274896611,
+      "heatmap_correlation": -0.0050910617,
+      "spatial_dtw": 0.1611563094,
+      "model_refixation_rate": 0.0013888889,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 1.8444444444,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 267.7025925926,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 148.5737678113,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "random_walk": {
+      "nss": -0.0651582518,
+      "auc_fixation_vs_nonfixation_pixels": 0.4970960518,
+      "heatmap_correlation": -0.0037788504,
+      "spatial_dtw": 0.1439031917,
+      "model_refixation_rate": 0.0,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 1.3777777778,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 356.3333333333,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 86.627416998,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "salience": {
+      "nss": -0.0480399517,
+      "auc_fixation_vs_nonfixation_pixels": 0.500336803,
+      "heatmap_correlation": -0.0088739295,
+      "spatial_dtw": 0.1759700138,
+      "model_refixation_rate": 0.0092592593,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 1.6333333333,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 305.674537037,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 210.4186100427,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "salience_ior": {
+      "nss": -0.0462707125,
+      "auc_fixation_vs_nonfixation_pixels": 0.4974175381,
+      "heatmap_correlation": -0.0068911588,
+      "spatial_dtw": 0.1721771284,
+      "model_refixation_rate": 0.0041666667,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 1.8166666667,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 272.2123148148,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 199.9928736407,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "without_depth": {
+      "nss": 0.0063736923,
+      "auc_fixation_vs_nonfixation_pixels": 0.5053671462,
+      "heatmap_correlation": -0.000464721,
+      "spatial_dtw": 0.1845188085,
+      "model_refixation_rate": 0.0,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 1.8555555556,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 265.2185185185,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 200.6954060656,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "without_exploration": {
+      "nss": 0.0817997101,
+      "auc_fixation_vs_nonfixation_pixels": 0.4873802581,
+      "heatmap_correlation": 0.0090305678,
+      "spatial_dtw": 0.1553374408,
+      "model_refixation_rate": 0.0281481481,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 1.5166666667,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 274.4669444444,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 67.055089496,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "without_history": {
+      "nss": 0.0017978376,
+      "auc_fixation_vs_nonfixation_pixels": 0.5250313315,
+      "heatmap_correlation": -0.0012168565,
+      "spatial_dtw": 0.1715085116,
+      "model_refixation_rate": 0.0049382716,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 1.8166666667,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 272.2981481481,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 169.5662477867,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "without_information": {
+      "nss": 0.0513763591,
+      "auc_fixation_vs_nonfixation_pixels": 0.5019729564,
+      "heatmap_correlation": 0.0019873731,
+      "spatial_dtw": 0.1715411199,
+      "model_refixation_rate": 0.0064814815,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 2.2166666667,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 220.0621296296,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 178.7995337828,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "without_memory": {
+      "nss": 0.1091038395,
+      "auc_fixation_vs_nonfixation_pixels": 0.5193458984,
+      "heatmap_correlation": 0.0079105318,
+      "spatial_dtw": 0.179179761,
+      "model_refixation_rate": 0.0,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 1.8333333333,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 268.987962963,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 225.432912316,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "without_novelty": {
+      "nss": 0.0335961001,
+      "auc_fixation_vs_nonfixation_pixels": 0.5105715913,
+      "heatmap_correlation": 0.0016909034,
+      "spatial_dtw": 0.1749154817,
+      "model_refixation_rate": 0.0027777778,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 2.2555555556,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 214.9244444444,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 202.6205176389,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "without_semantics": {
+      "nss": 0.0885469651,
+      "auc_fixation_vs_nonfixation_pixels": 0.5156098894,
+      "heatmap_correlation": 0.0055023337,
+      "spatial_dtw": 0.180673775,
+      "model_refixation_rate": 0.0,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 1.8333333333,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 268.987962963,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 214.2564305937,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "without_uncertainty": {
+      "nss": 0.049560456,
+      "auc_fixation_vs_nonfixation_pixels": 0.5101675926,
+      "heatmap_correlation": 0.0029057575,
+      "spatial_dtw": 0.1828222381,
+      "model_refixation_rate": 0.0027777778,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 1.9833333333,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 246.7187962963,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 204.5465856372,
+      "human_mean_amplitude_px": 73.0666606627
+    }
+  },
+  "prediction_hash_count": 2520,
+  "provenance_note": "Per-prediction hashes retained in local evaluation output; only aggregate results redistributed."
+}

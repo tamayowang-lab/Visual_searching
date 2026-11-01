@@ -1,0 +1,3 @@
+seed: 42
+max_fixations: 8
+time_budget_ms: 3000

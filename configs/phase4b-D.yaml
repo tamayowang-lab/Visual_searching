@@ -1,0 +1,41 @@
+active:
+  adaptive_candidates: false
+  behavior_mode: search
+  dynamic_perception: false
+  enabled: true
+  peripheral_guidance: true
+  peripheral_sensor: observed
+  proto_persistence: true
+  selection: balanced
+  valid_stimulus: true
+  variant: D
+max_fixations: 20
+perception:
+  cache_directory: .cache/observer
+  depth:
+    checkpoint: .cache/models/midas_v21_small_256.pt
+    provider: midas_small
+    revision: 454597711a62eabcbf7d1e89f3fb9f569051ac9b
+    source: .cache/models/MiDaS-454597711a62eabcbf7d1e89f3fb9f569051ac9b
+  objects:
+    checkpoint: .cache/models/ssdlite320_mobilenet_v3_large_coco-a79551df.pth
+    context_scale: 3.0
+    provider: torchvision_ssdlite
+    threshold: 0.3
+time_budget_ms: 7500
+timing:
+  diffusion: 0.2
+  dt_ms: 20.0
+  execution_enabled: true
+  heuristic_scale: 0.6
+  heuristic_sigma: 0.35
+  hold_strength: 0.5
+  preparation_ms: 30.0
+  priority_gain: 2.0
+  safety_timeout_ms: 3000.0
+  selection_mode: softmax
+  sensory_tau_ms: 250.0
+  threshold: 1.0
+  urgency: 4.0
+  urgency_ramp: 0.0
+timing_model: heuristic_lognormal

@@ -1,0 +1,386 @@
+[
+  {
+    "comparison": "B\u2212A",
+    "metric": "nearest_error_px",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "B\u2212A",
+    "metric": "coverage_deg_2",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "B\u2212A",
+    "metric": "probability_within_deg_2",
+    "delta": 0.0027330138639506695,
+    "ci95": [
+      0.00039026719024981945,
+      0.005435551677925249
+    ],
+    "scene_signflip_p": 0.25,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "B\u2212A",
+    "metric": "expected_error_px",
+    "delta": -15.661690070994567,
+    "ci95": [
+      -27.14859376566624,
+      -4.955741208513358
+    ],
+    "scene_signflip_p": 0.25,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "C\u2212B",
+    "metric": "nearest_error_px",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "C\u2212B",
+    "metric": "coverage_deg_2",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "C\u2212B",
+    "metric": "probability_within_deg_2",
+    "delta": 0.0007513099982875346,
+    "ci95": [
+      -0.0012030990415232675,
+      0.003899306550558187
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "C\u2212B",
+    "metric": "expected_error_px",
+    "delta": -0.9735756185779768,
+    "ci95": [
+      -3.300850432532819,
+      0.2608827460252698
+    ],
+    "scene_signflip_p": 0.5,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "D\u2212C",
+    "metric": "nearest_error_px",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "D\u2212C",
+    "metric": "coverage_deg_2",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "D\u2212C",
+    "metric": "probability_within_deg_2",
+    "delta": 0.0875967917928957,
+    "ci95": [
+      0.025221854032410812,
+      0.16870129040783094
+    ],
+    "scene_signflip_p": 0.03125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "D\u2212C",
+    "metric": "expected_error_px",
+    "delta": -40.76602311547907,
+    "ci95": [
+      -58.4174325176301,
+      -25.686862130630935
+    ],
+    "scene_signflip_p": 0.03125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "E\u2212D",
+    "metric": "nearest_error_px",
+    "delta": -8.539280875611668,
+    "ci95": [
+      -13.715973830974196,
+      -3.9592275569031345
+    ],
+    "scene_signflip_p": 0.03125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "E\u2212D",
+    "metric": "coverage_deg_2",
+    "delta": 0.24444444444444444,
+    "ci95": [
+      0.08124421296296296,
+      0.4388888888888889
+    ],
+    "scene_signflip_p": 0.0625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "E\u2212D",
+    "metric": "probability_within_deg_2",
+    "delta": -0.053110401608183345,
+    "ci95": [
+      -0.1223262470205815,
+      -0.011677623445126314
+    ],
+    "scene_signflip_p": 0.03125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "E\u2212D",
+    "metric": "expected_error_px",
+    "delta": -1.8575389557343687,
+    "ci95": [
+      -5.645987539158996,
+      2.7522950785531277
+    ],
+    "scene_signflip_p": 0.375,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212E",
+    "metric": "nearest_error_px",
+    "delta": -2.7253971840775897,
+    "ci95": [
+      -6.702373880733425,
+      0.03449061223079887
+    ],
+    "scene_signflip_p": 0.03125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212E",
+    "metric": "coverage_deg_2",
+    "delta": 0.15555555555555556,
+    "ci95": [
+      0.013045634920634925,
+      0.34722222222222215
+    ],
+    "scene_signflip_p": 0.0625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212E",
+    "metric": "probability_within_deg_2",
+    "delta": 0.003102457309608808,
+    "ci95": [
+      -0.047849564899141155,
+      0.03608281414307226
+    ],
+    "scene_signflip_p": 0.9375,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212E",
+    "metric": "expected_error_px",
+    "delta": -0.31500929906635733,
+    "ci95": [
+      -13.839284040618955,
+      12.154597278089607
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "S\u2212E",
+    "metric": "nearest_error_px",
+    "delta": 0.6807545461403742,
+    "ci95": [
+      -0.9955305032185917,
+      2.475377558112467
+    ],
+    "scene_signflip_p": 0.25,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "S\u2212E",
+    "metric": "coverage_deg_2",
+    "delta": 0.007291666666666666,
+    "ci95": [
+      -0.09722222222222222,
+      0.12222222222222222
+    ],
+    "scene_signflip_p": 0.875,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "S\u2212E",
+    "metric": "probability_within_deg_2",
+    "delta": -0.007369148063035401,
+    "ci95": [
+      -0.05121340734426206,
+      0.02056304631949978
+    ],
+    "scene_signflip_p": 0.90625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "S\u2212E",
+    "metric": "expected_error_px",
+    "delta": -1.595597640965903,
+    "ci95": [
+      -14.190328841420898,
+      9.862297334750439
+    ],
+    "scene_signflip_p": 0.6875,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212S",
+    "metric": "nearest_error_px",
+    "delta": -3.406151730217964,
+    "ci95": [
+      -7.237049480209363,
+      -0.8769472697371671
+    ],
+    "scene_signflip_p": 0.03125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212S",
+    "metric": "coverage_deg_2",
+    "delta": 0.1482638888888889,
+    "ci95": [
+      0.02777777777777778,
+      0.32439814814814805
+    ],
+    "scene_signflip_p": 0.0625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212S",
+    "metric": "probability_within_deg_2",
+    "delta": 0.010471605372644207,
+    "ci95": [
+      -0.0013300808476377306,
+      0.023557648170082223
+    ],
+    "scene_signflip_p": 0.125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212S",
+    "metric": "expected_error_px",
+    "delta": 1.2805883418995452,
+    "ci95": [
+      -2.0137040063765492,
+      4.615897384925637
+    ],
+    "scene_signflip_p": 0.65625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212N",
+    "metric": "nearest_error_px",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212N",
+    "metric": "coverage_deg_2",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212N",
+    "metric": "probability_within_deg_2",
+    "delta": -0.0005756645299885766,
+    "ci95": [
+      -0.0027823003451269684,
+      0.00033584172981849765
+    ],
+    "scene_signflip_p": 0.625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212N",
+    "metric": "expected_error_px",
+    "delta": -0.037463627084915054,
+    "ci95": [
+      -0.36775200812268355,
+      0.11177587704398939
+    ],
+    "scene_signflip_p": 0.6875,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  }
+]

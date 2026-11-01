@@ -1,0 +1,50 @@
+{
+  "tests": {
+    "passed": 83,
+    "failed": 0,
+    "environment": "Verified CPU vision environment; NumPy 1.26.4, torch 2.6.0 CPU, torchvision 0.21.0, OpenCV 4.11.0.86"
+  },
+  "original_baseline_exact_trajectory_replay": 174,
+  "archived_timing_variants_exact_A_regression": 3,
+  "full_decision_trace_per_fixation": true,
+  "cli_outputs": [
+    "strict JSON",
+    "one trace per JSONL line",
+    "PNG dashboard",
+    "standalone UTF-8 HTML"
+  ],
+  "wheel_includes_all_lab_assets": true,
+  "browser_release": {
+    "pass": true,
+    "checks": [
+      "all eight autonomous variants",
+      "terminal steps",
+      "verified sensory frames",
+      "probability vectors",
+      "report plots and data links",
+      "report mobile layout",
+      "original nine-start three-timing viewer retained",
+      "no errors"
+    ]
+  },
+  "browser_lab": {
+    "pass": true,
+    "checks": [
+      "six empirical scenes",
+      "eight variants",
+      "gzip replay",
+      "human-prefix nearest candidate",
+      "candidate selection",
+      "multiscale proto state",
+      "verified inputs",
+      "explore/search same photo",
+      "all spatial layers",
+      "trace export",
+      "mobile",
+      "no browser errors"
+    ]
+  },
+  "site_audience": "owner-only internal research; no public empirical replay assets",
+  "autonomous_runs": 1392,
+  "human_prefix_transitions": 928
+}

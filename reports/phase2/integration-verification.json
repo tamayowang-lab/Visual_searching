@@ -1,0 +1,7 @@
+{
+  "real_pretrained_single_and_evaluation_parity": true,
+  "changed_future_human_coordinates_and_durations_do_not_change_predictions": true,
+  "no_depth_baseline_has_no_fabricated_XYZ": true,
+  "provider": "torchvision_ssdlite_foveal",
+  "seed": 11
+}

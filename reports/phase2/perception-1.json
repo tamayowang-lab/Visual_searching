@@ -1,0 +1,117 @@
+{
+  "image": "sample.jpg",
+  "image_dimensions": [
+    960,
+    600
+  ],
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "load_seconds": 2.8504694040020695,
+  "depth_first_seconds": 0.31087743699754355,
+  "depth_cached_seconds": 0.030723285999556538,
+  "depth_metadata": {
+    "estimator": "MiDaS v2.1 small",
+    "normalization": "per-image 2nd/98th percentiles of inverse depth",
+    "normalization_bounds": [
+      69.50344924926758,
+      752.2846789550781
+    ],
+    "source_kind": "inverse_depth",
+    "units": "normalized inverse depth; relative range = 1/(0.1+D), not meters",
+    "calibrated_uncertainty": false,
+    "quality_flags": [
+      "heuristic_quality_not_calibrated",
+      "no_perturbation_consistency"
+    ],
+    "checkpoint_sha256": "70d6b9c891758c67f974a6097fb0c608c7ee67fb81ac3e5588847d5596d56fca",
+    "source_revision": "454597711a62eabcbf7d1e89f3fb9f569051ac9b",
+    "source_sha256": {
+      "midas/midas_net_custom.py": "0c3aa730942911186085acf4b1540853444f1c0575b971680101e8667ca7b6cb",
+      "midas/blocks.py": "83adff6e533cd793f3e53ef85e5ac9e2a137a86b4700c49a8e98c0f264975839"
+    },
+    "device": "cpu",
+    "preprocessing": "upper-bound aspect resize to multiples of 32; ImageNet RGB normalization; bicubic upsample"
+  },
+  "object_provider": {
+    "provider": "torchvision_ssdlite_foveal",
+    "checkpoint_sha256": "a79551df90c79834bcd3bb3845ef9d966b5449a3a9b2833ae8404778ca5d65d2",
+    "architecture": "ssdlite320_mobilenet_v3_large",
+    "torchvision": "0.21.0+cpu",
+    "preprocessing": "RGB /255; torchvision detection resize/normalization",
+    "semantic_gate": "center inside central circle; box clipped to central square",
+    "context_scale": 3.0,
+    "threshold": 0.3,
+    "device": "cpu",
+    "full_image_semantics": false,
+    "cache": "foveated RGB+gaze+radius+provider fingerprint; no cached full-image semantics"
+  },
+  "fixations": [
+    {
+      "gaze": [
+        191.8,
+        389.35
+      ],
+      "semantic": [
+        {
+          "person": 0.963100016117096,
+          "unknown": 0.03689998388290405
+        },
+        {
+          "person": 0.9474044442176819,
+          "unknown": 0.052595555782318115
+        }
+      ],
+      "cold_seconds": 0.11734880800213432,
+      "cached_seconds": 0.0022727330069756135,
+      "cache_reproduces": true
+    },
+    {
+      "gaze": [
+        479.5,
+        299.5
+      ],
+      "semantic": [],
+      "cold_seconds": 0.1012397470040014,
+      "cached_seconds": 0.0019316760008223355,
+      "cache_reproduces": true
+    },
+    {
+      "gaze": [
+        767.2,
+        299.5
+      ],
+      "semantic": [
+        {
+          "person": 0.5548810362815857,
+          "unknown": 0.4451189637184143
+        },
+        {
+          "person": 0.5179687142372131,
+          "unknown": 0.48203128576278687
+        }
+      ],
+      "cold_seconds": 0.10287158099527005,
+      "cached_seconds": 0.0016804109982331283,
+      "cache_reproduces": true
+    },
+    {
+      "gaze": [
+        479.5,
+        479.20000000000005
+      ],
+      "semantic": [
+        {
+          "airplane": 0.3644391894340515,
+          "unknown": 0.6355608105659485
+        }
+      ],
+      "cold_seconds": 0.10415375599404797,
+      "cached_seconds": 0.001818520002416335,
+      "cache_reproduces": true
+    }
+  ],
+  "memory": {
+    "peak_process_rss_mb": 511.16796875,
+    "scope": "whole process including Python and both model weights, not isolated tensor memory"
+  },
+  "warning": "Real model inference verification, not semantic accuracy, depth ground-truth accuracy or human validation"
+}

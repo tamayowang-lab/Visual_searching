@@ -1,0 +1,80 @@
+RGB-only Active Visual Observer
+Implementation specification for Codex  |  Version 1.0  |  1 November 2026
+Goal: build an interpretable, empirically testable visual-attention agent that explores static RGB scenes, maintains a lightweight uncertain 2.5D object-centered memory, and predicts human fixation sequences. Preserve interfaces for later RGB-D and pan–tilt robot integration.
+1. Scope and non-goals
+V1 input: a single RGB image, optional image dimensions and viewing geometry, optional task/target label, and optional human fixation records. No ground-truth depth is required.
+V1 outputs: ordered fixation coordinates, fixation durations, attention/object scores, estimated relative depth with uncertainty, object memory states, scanpath visualization, and reproducible metrics.
+V1 is offline and head-only in concept. A fixation moves a simulated gaze point within the image; it does NOT reveal pixels outside the image or create novel viewpoints. Do not warp an RGB photo to fabricate observations.
+Non-goals: physical robotics, Unity integration, full SLAM, metric 3D reconstruction, eye-movement physiology, auditory attention, online RL, end-to-end learned scanpath prediction.
+2. Scientific commitments
+Keep the attention policy interpretable: salience, task relevance, contextual prior, novelty, expected information gain, movement cost, and revisit history are explicit, inspectable factors.
+Use a foveated observation model: low-confidence peripheral recognition and higher-quality evidence near fixation. Never allow full-resolution semantic detections or full-image depth to leak into the simulated agent as if foveally observed.
+Distinguish ground-truth-like computer-vision outputs used to generate candidate proposals from the belief state actually available to the observer. Report this approximation transparently.
+Depth inferred from a single RGB frame is ambiguous in scale. Store normalized inverse-depth or relative depth, and confidence/quality flags; do not label output as accurate meters without external calibration.
+Use object-based memory plus exploration candidates (image regions not yet inspected). A policy restricted to detected objects cannot explore unknown space.
+3. Data contracts and coordinate systems
+Image frame: width W, height H; fixation positions in pixel coordinates (u,v), with normalized (u/W,v/H) available. Document whether pixels are zero-indexed.
+Estimated depth: D(u,v), valid mask, and uncertainty/quality proxy Q(u,v). Default D is relative and may vary in scale across images. Store the estimator name and normalization metadata.
+Camera model: optional fx, fy, cx, cy, viewing distance and screen geometry. If absent, use a canonical pseudo-camera for visualization only; mark XYZ as pseudo-3D, not metric.
+Object record: id, bbox/mask, class probabilities, compact appearance descriptor, 2D centroid, pseudo-3D centroid, extent, covariance/uncertainty, visibility, last_seen, visits, familiarity, novelty, belief confidence, and IOR state.
+Fixation record: image_id, step, x_px, y_px, duration_ms, chosen_candidate, mode, utility terms, and random seed. Maintain consistent image-to-display coordinate transforms.
+4. Modular software architecture
+io/: image loaders, optional human fixation parsers, image metadata, configuration, seeds.
+perception/depth.py: pluggable monocular depth provider. Include deterministic dummy/constant and precomputed-map providers for tests; optional pretrained depth adapter with explicit model/checkpoint and preprocessing.
+perception/objects.py: candidate masks/boxes from pluggable detector; include lightweight classical connected-component or manually specified boxes for tests. Optional pretrained detector must be replaceable.
+perception/foveation.py: eccentricity-dependent blur/feature uncertainty; configurable pixels-per-degree; if geometry unavailable use clearly labeled pixel-based approximation.
+world/model.py: object registry and coarse unexplored-region grid; state update and decay; distinguish observed, remembered, and uncertain.
+world/association.py: association using position, category distribution, and appearance; use gating and Hungarian assignment when needed; avoid duplicate object IDs.
+attention/policy.py: candidate generation and transparent utility calculation; softmax or Gumbel sampling with seeded RNG; separate stay, shift, stop, and optional standby decisions.
+attention/dynamics.py: fixation duration model, habituation, soft IOR, novelty decay, and bounded persistence/hysteresis.
+simulation/runner.py: sequential fixation loop, logging, stopping rules, and batched evaluation.
+viz/: original RGB with scanpath, relative depth, object masks/boxes, memory table, utility decomposition, foveated view, and attention heatmap.
+evaluation/: fixation density NSS/AUC where valid, sequence metrics, fixation count/duration distributions, refixation rate, center-bias baseline, salience-only baseline, and held-out split support.
+5. Per-fixation processing loop
+Initialize fixation at image center or a dataset-specified starting fixation; do not use the human next fixation to drive predictions.
+At step t: produce a foveated observation at current gaze; update candidate evidence and uncertain object memory; update exploration-region coverage and history traces.
+Generate both object and spatial exploration candidates. Compute interpretable terms with fixed documented normalization and no hidden use of the test scanpath.
+Calculate action utilities: U = w_sal S + w_task T + w_context C + w_novel N + w_info I - w_move M - w_history H. Treat this as a heuristic, not a mathematically exact expected-information-gain policy.
+Use softmax over candidate utilities with a seeded generator, plus persistence/thresholds to avoid per-frame jitter. Sample a fixation duration from a documented bounded distribution; update the memory.
+Terminate at a configurable fixation count or time budget; optionally stop on explicit target detection. Log every score component and decision.
+6. Monocular depth and 2.5D geometry
+First implement depth provider interface; test on saved relative-depth arrays before adding a pretrained estimator. Cache per-image depth predictions to avoid repeated inference.
+Use a pretrained monocular depth model only as an optional perception module. Keep CPU execution possible with a smaller model or precomputed maps. Do not assume GPU.
+Robustly summarize depth inside a segmented object using valid pixels and quantiles/median. Estimate uncertainty from within-mask dispersion, model quality flags, and perturbation consistency where feasible; do not claim calibrated uncertainty without validation.
+If intrinsics and metric depth are unavailable, compute pseudo-3D bearing and relative range. Depth order and occlusion relations may be useful even without metric distances.
+Provide a future DepthProvider protocol that can accept aligned physical RGB-D frames without changing world-memory and attention APIs.
+Important: a single image supports 2.5D visible-surface geometry, not a complete 3D object shape or unseen-room map.
+7. Empirical validation and leakage control
+Use human eye-tracking datasets such as COCO-Search18 for target-guided scene search and MIT1003 or comparable data for free viewing, subject to actual download/access and license. Dataset adapters must validate image dimensions, fixation units, task labels, and initial-fixation conventions.
+Use held-out images, not merely held-out fixations from the same images. Where appropriate, also report participant-level variability and avoid training/test overlap.
+Compare: random-with-center-bias; center-bias alone; salience-only; salience + IOR; full model without depth; full model with depth; full model without object memory.
+Metrics: NSS, AUC-Judd or comparable density metric (with appropriate negatives), fixation heatmap similarity, scanpath sequence metric when available, refixation rate, saccade amplitude, and fixation duration. Do not claim one metric establishes human likeness.
+Run ablations on depth, uncertainty, memory, novelty, history, and exploration. Measure whether monocular depth improves held-out predictions beyond a no-depth baseline.
+Depth is a hypothesis to test, not a guaranteed advantage: dataset eye tracking contains no depth truth, so behavioral fit alone cannot validate physical depth accuracy.
+8. Visualization and inspection
+Provide one command to run an image and save a dashboard PNG: RGB image with numbered fixation circles and connecting lines; depth heatmap with relative-scale label; object overlays; attention heatmap; per-step score breakdown.
+Provide a step-through animation or HTML visualization if practical, but static PNG output must work without a browser.
+Every fixation should expose which candidate won and why, including object versus unexplored-region candidate, uncertainty, depth, movement cost, and history penalty.
+Ensure plots do not display inferred hidden regions as observed.
+9. Engineering requirements
+Python 3.11+, NumPy, SciPy, OpenCV, Matplotlib, pandas, pytest; PyTorch and pretrained models optional extras. Keep dependency versions compatible and document tested environment.
+Config via YAML or dataclasses; CLI commands: run-one, run-batch, evaluate, visualize. Provide small bundled synthetic fixtures and no requirement to download large datasets to run unit tests.
+Write type hints and docstrings; separate deterministic model computation from stochastic policy sampling; seed NumPy/PyTorch where used.
+Implement tests for pixel-to-bearing conversion, depth normalization, object association, no-observation decay, off-screen handling, seeded scanpath reproducibility, no depth availability, and no leakage from held-out human fixations.
+Never silently convert relative depth to meters; record camera assumptions in output metadata.
+10. Milestones and acceptance criteria
+M1: Working CLI on synthetic RGB image with dummy depth, candidate objects, exploration grid, and visible scanpath. Tests pass without downloading pretrained models.
+M2: Plug-in monocular depth estimation, cache results, object-relative depth and pseudo-3D memory; demonstrate no-depth fallback and quality flags.
+M3: Full attention policy, habituation, IOR, fixation durations, complete per-step logs and inspection dashboard.
+M4: Human dataset adapter, evaluation pipeline, baselines, ablations, summary tables and reproducible held-out protocol.
+M5 (future, not V1): camera-pose interface, actual RGB-D sensor provider, head-control messages, ROS 2/Unity integration.
+11. Suggested repository layout
+active_observer/{config.py,cli.py,io/,perception/,world/,attention/,simulation/,evaluation/,viz/}; configs/default.yaml; tests/; examples/; scripts/; README.md; pyproject.toml.
+Prefer simple implementations first. Do not add elaborate frameworks or a database until the prototype requires them.
+12. Codex execution instructions
+Build incrementally in the milestone order. Before writing code, inspect the repository and describe existing files; do not overwrite unrelated work.
+Implement M1 fully and run tests before moving to M2. For each milestone, report changed files, runnable commands, tests executed, known limitations, and assumptions.
+Do not invent empirical results, benchmark scores, or dataset availability. If pretrained weights or datasets are unavailable, implement adapters and deterministic fixtures and state what remains untested.
+Prioritize a working interpretable prototype over visual polish or complex neural-network architecture.
+Scientific provenance and design decisions
+Based on the user-provided “Resource-Rational Active-Sensing Model of Visual Search” (design document, 1 November 2026): foveated sensor, peripheral uncertainty, proto-objects, scene context, reliability-weighted guidance, object memory, IOR, decision/stopping, and human-data validation. Adaptations made for this implementation: RGB-only monocular depth, 2.5D rather than metric 3D, explicit unknown-region exploration, offline static-image fixation loop, and staged robotics compatibility. These adaptations are engineering recommendations, not claims established by the source document.

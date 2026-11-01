@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+[project]
+name = "rgb-active-observer"
+version = "0.2.0"
+description = "Interpretable RGB-only foveated active observer"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.24,<3", "scipy>=1.10,<2", "opencv-python-headless>=4.8,<5", "matplotlib>=3.7,<4", "pandas>=2,<3", "PyYAML>=6,<7"]
+[project.optional-dependencies]
+test = ["pytest>=8,<9"]
+vision = ["opencv-python-headless==4.11.0.86", "numpy==1.26.4", "torch==2.6.0", "torchvision==0.21.0", "timm==0.6.13"]
+pretrained = ["torch>=2.2", "transformers>=4.45,<5", "Pillow>=10"]
+[project.scripts]
+active-observer = "active_observer.cli:main"
+[tool.setuptools.packages.find]
+include = ["active_observer*"]
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.setuptools.package-data]
+"active_observer.viz" = ["viewer.html", "lab/*"]

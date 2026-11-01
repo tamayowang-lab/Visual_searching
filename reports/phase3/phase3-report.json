@@ -1,0 +1,280 @@
+{
+  "status": "Exploratory timing-only comparison on the previously examined internal COCO split; no confirmatory human-likeness claim",
+  "images": 6,
+  "participants": 10,
+  "trials": 60,
+  "seeds": [
+    11,
+    23,
+    37
+  ],
+  "variants": [
+    "heuristic_lognormal",
+    "accumulator",
+    "accumulator_hold"
+  ],
+  "selected_on_validation": "accumulator",
+  "parameters": {
+    "heuristic_lognormal": {
+      "parameters": {
+        "dt_ms": 20.0,
+        "threshold": 1.0,
+        "urgency": 4.0,
+        "priority_gain": 2.0,
+        "diffusion": 0.2,
+        "urgency_ramp": 0.0,
+        "preparation_ms": 30.0,
+        "hold_strength": 0.5,
+        "sensory_tau_ms": 250.0,
+        "safety_timeout_ms": 3000.0,
+        "heuristic_scale": 0.6,
+        "heuristic_sigma": 0.35,
+        "selection_mode": "softmax",
+        "execution_enabled": true
+      },
+      "training_crps_ms": 51.383109121641375,
+      "validation_crps_ms": 63.001827141614264,
+      "validation_image_se_ms": 7.9387999521683374,
+      "validation_image_losses": {
+        "000000570117.jpg": 74.29722821204284,
+        "000000123762.jpg": 44.202069209038044,
+        "000000209746.jpg": 90.87898871809799,
+        "000000553851.jpg": 70.98941714461135,
+        "000000441296.jpg": 39.694044371889916,
+        "000000304716.jpg": 57.949215194005475
+      }
+    },
+    "accumulator": {
+      "parameters": {
+        "dt_ms": 20.0,
+        "threshold": 1.0,
+        "urgency": 2.5,
+        "priority_gain": 2.0,
+        "diffusion": 0.4,
+        "urgency_ramp": 0.0,
+        "preparation_ms": 20.0,
+        "hold_strength": 0.0,
+        "sensory_tau_ms": 250.0,
+        "safety_timeout_ms": 3000.0,
+        "heuristic_scale": 1.0,
+        "heuristic_sigma": 0.18,
+        "selection_mode": "softmax",
+        "execution_enabled": true
+      },
+      "training_crps_ms": 56.88076065933015,
+      "validation_crps_ms": 56.347968291238,
+      "validation_image_se_ms": 7.122095392170255,
+      "validation_image_losses": {
+        "000000570117.jpg": 39.84367118487687,
+        "000000123762.jpg": 62.13549943348938,
+        "000000209746.jpg": 82.31509138564772,
+        "000000553851.jpg": 48.60026636108691,
+        "000000441296.jpg": 37.54046821883913,
+        "000000304716.jpg": 67.65281316348796
+      }
+    },
+    "accumulator_hold": {
+      "parameters": {
+        "dt_ms": 20.0,
+        "threshold": 1.0,
+        "urgency": 4.0,
+        "priority_gain": 2.0,
+        "diffusion": 0.4,
+        "urgency_ramp": 0.0,
+        "preparation_ms": 20.0,
+        "hold_strength": 0.6,
+        "sensory_tau_ms": 250.0,
+        "safety_timeout_ms": 3000.0,
+        "heuristic_scale": 1.0,
+        "heuristic_sigma": 0.18,
+        "selection_mode": "softmax",
+        "execution_enabled": true
+      },
+      "training_crps_ms": 55.36935687173125,
+      "validation_crps_ms": 53.32652655171061,
+      "validation_image_se_ms": 5.268520885574112,
+      "validation_image_losses": {
+        "000000570117.jpg": 42.6861166458665,
+        "000000123762.jpg": 56.870046014890505,
+        "000000209746.jpg": 62.531093473288855,
+        "000000553851.jpg": 53.221371945914036,
+        "000000441296.jpg": 34.71554727739151,
+        "000000304716.jpg": 69.93498395291229
+      }
+    }
+  },
+  "conditional_timing": {
+    "heuristic_lognormal": {
+      "mean": 56.88640228164729,
+      "image_se": 6.3532824693735,
+      "image_losses": {
+        "000000167180.jpg": 67.60379519379208,
+        "000000354746.jpg": 71.73143238109498,
+        "000000559395.jpg": 38.50454220510021,
+        "000000206662.jpg": 40.87350372573212,
+        "000000078274.jpg": 72.31115170569235,
+        "000000535732.jpg": 50.29398847847205
+      }
+    },
+    "accumulator": {
+      "mean": 62.75196686977591,
+      "image_se": 7.647699131541428,
+      "image_losses": {
+        "000000167180.jpg": 75.46667524819802,
+        "000000354746.jpg": 70.54028049313969,
+        "000000559395.jpg": 62.78774155803829,
+        "000000206662.jpg": 26.12966805568081,
+        "000000078274.jpg": 76.350868793927,
+        "000000535732.jpg": 65.23656706967162
+      }
+    },
+    "accumulator_hold": {
+      "mean": 61.23338974015777,
+      "image_se": 6.47278862638195,
+      "image_losses": {
+        "000000167180.jpg": 73.8383706436964,
+        "000000354746.jpg": 66.48513554954644,
+        "000000559395.jpg": 61.93316662053578,
+        "000000206662.jpg": 29.95197860145229,
+        "000000078274.jpg": 69.88335240891173,
+        "000000535732.jpg": 65.30833461680395
+      }
+    }
+  },
+  "generative_summary": {
+    "accumulator": {
+      "censored_model_fraction": 0.3159391534,
+      "completed_model_mean_ms": 187.7604915266,
+      "duration_wasserstein_ms": 73.7939733094,
+      "amplitude_wasserstein_px": 143.5824948921,
+      "nss": 0.0931997838,
+      "auc_fixation_vs_nonfixation_pixels": 0.5107871663,
+      "heatmap_correlation": 0.006737753,
+      "spatial_dtw": 0.1799998696,
+      "model_refixation_rate": 0.0092592593,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 2.8944444444,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 159.7054074096,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 196.035912945,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "accumulator_hold": {
+      "censored_model_fraction": 0.3107539683,
+      "completed_model_mean_ms": 182.2116200877,
+      "duration_wasserstein_ms": 76.1874346735,
+      "amplitude_wasserstein_px": 144.8505122866,
+      "nss": 0.1000067865,
+      "auc_fixation_vs_nonfixation_pixels": 0.511106448,
+      "heatmap_correlation": 0.0077302739,
+      "spatial_dtw": 0.1826424557,
+      "model_refixation_rate": 0.0092592593,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 2.9555555556,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 155.3347791299,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 195.387111861,
+      "human_mean_amplitude_px": 73.0666606627
+    },
+    "heuristic_lognormal": {
+      "censored_model_fraction": 0.3832010582,
+      "completed_model_mean_ms": 234.75567856,
+      "duration_wasserstein_ms": 87.1789608855,
+      "amplitude_wasserstein_px": 141.391827645,
+      "nss": 0.092268505,
+      "auc_fixation_vs_nonfixation_pixels": 0.5150091553,
+      "heatmap_correlation": 0.0067950379,
+      "spatial_dtw": 0.1808829041,
+      "model_refixation_rate": 0.0037037037,
+      "human_refixation_rate": 0.0343364198,
+      "model_fixation_count": 2.6611111111,
+      "human_fixation_count": 2.2833333333,
+      "model_mean_duration_ms": 200.7192831486,
+      "human_mean_duration_ms": 208.6538888889,
+      "model_mean_amplitude_px": 197.1888308625,
+      "human_mean_amplitude_px": 73.0666606627
+    }
+  },
+  "paired_intervals": {
+    "accumulator": {
+      "duration_wasserstein_ms": {
+        "delta": -13.384987576173765,
+        "ci95": [
+          -28.03103782324023,
+          0.6239507906111136
+        ]
+      },
+      "amplitude_wasserstein_px": {
+        "delta": 2.19066724710855,
+        "ci95": [
+          -12.859558228407307,
+          17.62145219029611
+        ]
+      },
+      "nss": {
+        "delta": 0.0009312788089507,
+        "ci95": [
+          -0.06878556337346572,
+          0.08853365366475896
+        ]
+      },
+      "spatial_dtw": {
+        "delta": -0.000883034455463639,
+        "ci95": [
+          -0.009368198994601704,
+          0.007646249242772857
+        ]
+      },
+      "model_refixation_rate": {
+        "delta": 0.005555555555555556,
+        "ci95": [
+          0.0,
+          0.022222222222222223
+        ]
+      }
+    },
+    "accumulator_hold": {
+      "duration_wasserstein_ms": {
+        "delta": -10.99152621206691,
+        "ci95": [
+          -24.959896814230877,
+          1.7887825225218277
+        ]
+      },
+      "amplitude_wasserstein_px": {
+        "delta": 3.4586846416078862,
+        "ci95": [
+          -10.989130169618194,
+          17.104616140193652
+        ]
+      },
+      "nss": {
+        "delta": 0.007738281476727854,
+        "ci95": [
+          -0.05278411325013666,
+          0.10256708682933795
+        ]
+      },
+      "spatial_dtw": {
+        "delta": 0.0017595515623142696,
+        "ci95": [
+          -0.008600908784905775,
+          0.01201880512728569
+        ]
+      },
+      "model_refixation_rate": {
+        "delta": 0.005555555555555556,
+        "ci95": [
+          0.0,
+          0.022222222222222223
+        ]
+      }
+    }
+  },
+  "scope": "No spatial weights, perception, peripheral guidance, EIG expression or world update modified. Primary spatial selector remains softmax; races control departure readiness only.",
+  "timing_observability": "Dataset provides fixation events. Decision/preparation decomposition and pixel-based execution durations are model assumptions. RT is supplied as exposure budget.",
+  "uncertainty": "2000 crossed image/participant bootstrap resamples, after averaging seeds; small-sample approximate pointwise intervals, not multiplicity-adjusted significance tests.",
+  "conditional_protocol": "Train/validation conditional contexts replay past human observations; test conditional CRPS uses known current fixation only and is separate from autonomous generative trajectories. Final human fixation excluded from conditional fitting/scoring as potentially censored."
+}

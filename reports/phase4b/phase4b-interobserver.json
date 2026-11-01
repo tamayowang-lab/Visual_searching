@@ -1,0 +1,13 @@
+{
+  "count_nss": 6.360241770886624,
+  "scenes": 6,
+  "by_image": {
+    "000000200206.jpg": 5.790832971540471,
+    "000000218809.jpg": 3.0649817998403015,
+    "000000235176.jpg": 9.649596812912126,
+    "000000403194.jpg": 5.490324266861512,
+    "000000432153.jpg": 5.234462678282048,
+    "000000470112.jpg": 8.931252095883277
+  },
+  "description": "Same image + task, leave-one-participant-out normalized count density; reference, not a mathematical upper bound."
+}

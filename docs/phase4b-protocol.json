@@ -1,0 +1,149 @@
+{
+  "protocol": {
+    "phase": "4B",
+    "baseline": "335a9d0af15cee164bfefafa8521e8e81cba15d5 (Phase3 frozen lognormal numerical baseline)",
+    "sequence": "B mask validity evaluated first on old exploratory scenes; C task guidance, D balanced selection, E adaptive proposals evaluated sequentially on six new validation scenes; F only after assessing C-E",
+    "independent_scenes": "12 additional mirror images selected by SHA256(phase4b-independent-v1:filename), six validation and six final test, disjoint from earlier 24",
+    "no_test_fitting": true,
+    "timing": "All three timing models retained. Primary spatial ablation fixes the original fitted heuristic lognormal timing. No timing parameter fit in Phase4B.",
+    "design_parameters": "peripheral width160/cap.35; revised task gain3, movement scale.20 diagonal; candidate groups normalized by area; no parameter sweeps on old test scenes",
+    "primary_units": "scenes, simulation seeds averaged inside participant/task; paired scene bootstrap",
+    "limitations": "Static TP categorical search, RT-conditioned windows, original source lacks exact event onsets; exploration mode has no human free-viewing validation here"
+  },
+  "active_source_sha256": {
+    "active_observer/active/__init__.py": "a0e83fdc73013ad7a7919a5c05441dab6c5cf43c74c7916473be7a4d8f473319",
+    "active_observer/active/candidates.py": "7441e1e559c4edfcff3864a34ba6ea542c7cb613c4e848bd042b18197c30f8f8",
+    "active_observer/active/masking.py": "d411ce3ac32e1c32dd725f8bbc1819a1acabed561ba25fe26da27d8f12044737",
+    "active_observer/active/options.py": "bc877f8b3429efe5e36a58923989629c18d657a52992fee0d6fbda6ed9568db9",
+    "active_observer/active/perception.py": "6777122874581d6ea329492525ce5e1d4f434465056243fbccb630a28a1e4af3",
+    "active_observer/active/policy.py": "4abf1e4e209130db12595fbd2b63285252bdf46f49310240ebc6ff60faf10167",
+    "active_observer/active/runner.py": "7f49f1046d9bf6b2bb6cdf5101d70c76aed22328449ea98fdb3069053369e5a4",
+    "active_observer/active/trace.py": "ff007a3f8473550d7c3a6d4a94f679122f238d9f364837a2f085371757fb232f"
+  },
+  "variants": {
+    "A": {
+      "enabled": true,
+      "variant": "A",
+      "valid_stimulus": false,
+      "behavior_mode": "legacy",
+      "peripheral_guidance": false,
+      "selection": "legacy",
+      "adaptive_candidates": false,
+      "dynamic_perception": false,
+      "peripheral_sensor": "observed",
+      "proto_persistence": true
+    },
+    "B": {
+      "enabled": true,
+      "variant": "B",
+      "valid_stimulus": true,
+      "behavior_mode": "legacy",
+      "peripheral_guidance": false,
+      "selection": "legacy",
+      "adaptive_candidates": false,
+      "dynamic_perception": false,
+      "peripheral_sensor": "observed",
+      "proto_persistence": true
+    },
+    "C": {
+      "enabled": true,
+      "variant": "C",
+      "valid_stimulus": true,
+      "behavior_mode": "search",
+      "peripheral_guidance": true,
+      "selection": "legacy",
+      "adaptive_candidates": false,
+      "dynamic_perception": false,
+      "peripheral_sensor": "observed",
+      "proto_persistence": true
+    },
+    "D": {
+      "enabled": true,
+      "variant": "D",
+      "valid_stimulus": true,
+      "behavior_mode": "search",
+      "peripheral_guidance": true,
+      "selection": "balanced",
+      "adaptive_candidates": false,
+      "dynamic_perception": false,
+      "peripheral_sensor": "observed",
+      "proto_persistence": true
+    },
+    "E": {
+      "enabled": true,
+      "variant": "E",
+      "valid_stimulus": true,
+      "behavior_mode": "search",
+      "peripheral_guidance": true,
+      "selection": "balanced",
+      "adaptive_candidates": true,
+      "dynamic_perception": false,
+      "peripheral_sensor": "observed",
+      "proto_persistence": true
+    },
+    "F": {
+      "enabled": true,
+      "variant": "F",
+      "valid_stimulus": true,
+      "behavior_mode": "search",
+      "peripheral_guidance": true,
+      "selection": "balanced",
+      "adaptive_candidates": true,
+      "dynamic_perception": true,
+      "peripheral_sensor": "bounded_rgb",
+      "proto_persistence": true
+    },
+    "S": {
+      "enabled": true,
+      "variant": "S",
+      "valid_stimulus": true,
+      "behavior_mode": "search",
+      "peripheral_guidance": true,
+      "selection": "balanced",
+      "adaptive_candidates": true,
+      "dynamic_perception": false,
+      "peripheral_sensor": "bounded_rgb",
+      "proto_persistence": true
+    },
+    "N": {
+      "enabled": true,
+      "variant": "N",
+      "valid_stimulus": true,
+      "behavior_mode": "search",
+      "peripheral_guidance": true,
+      "selection": "balanced",
+      "adaptive_candidates": true,
+      "dynamic_perception": true,
+      "peripheral_sensor": "bounded_rgb",
+      "proto_persistence": false
+    }
+  },
+  "selected_on_validation": "D",
+  "selection_reason": "D provisionally selected from initial validation for target acquisition/count NSS and simpler architecture, with worse timing mismatch explicitly retained. Corrected F/N are experimental ablations; no test-based model selection.",
+  "seeds": [
+    11,
+    23,
+    37
+  ],
+  "validation_images": [
+    "000000085459.jpg",
+    "000000121184.jpg",
+    "000000228953.jpg",
+    "000000341060.jpg",
+    "000000353495.jpg",
+    "000000521808.jpg"
+  ],
+  "test_images": [
+    "000000200206.jpg",
+    "000000218809.jpg",
+    "000000235176.jpg",
+    "000000403194.jpg",
+    "000000432153.jpg",
+    "000000470112.jpg"
+  ],
+  "frozen_timing_fit_sha256": "ddd3319d15e182b1a15f3e58cdd0bb12ba4cd0ebc0270f93a64c8d66a5562d5e",
+  "validation_note": "Revision 2 is an implementation-audit amendment. Some test jobs started before the proto-attribute defect was found, but no held-out outcome scores were inspected before correction. A-E/S numerical paths unaffected; F/N validation and test supersede stale revision1 outputs.",
+  "revision": 2,
+  "audit_correction": "Proto-only candidate attributes now computed from actual location/confidence instead of template. Found in source/trace audit, not from held-out outcome scores. Unchanged A-E/S retained; F/N revalidated and rescored. No held-out outcome scores inspected before correction.",
+  "metadata_audit": "Evaluation now declares real photo bounds to A as metadata without enforcing them, so baseline padding probabilities and hatching are honest. A regenerated; its fixation coordinates/durations must match previous cached baseline exactly. No attention equations changed."
+}

@@ -1,0 +1,674 @@
+[
+  {
+    "comparison": "B\u2212A",
+    "metric": "model_target_ever",
+    "delta": -0.011111111111111112,
+    "ci95": [
+      -0.07777777777777779,
+      0.03902777777777703
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "B\u2212A",
+    "metric": "count_nss",
+    "delta": 0.023221928064918528,
+    "ci95": [
+      -0.2909449147505397,
+      0.3545131744561732
+    ],
+    "scene_signflip_p": 0.75,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "B\u2212A",
+    "metric": "duration_nss",
+    "delta": -0.0012953324939555687,
+    "ci95": [
+      -0.10235623500120763,
+      0.11379665867399658
+    ],
+    "scene_signflip_p": 0.75,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "B\u2212A",
+    "metric": "spatial_dtw",
+    "delta": -0.01541542400062304,
+    "ci95": [
+      -0.04060607385006687,
+      0.003498635963675962
+    ],
+    "scene_signflip_p": 0.5,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "B\u2212A",
+    "metric": "model_amplitude_all_px",
+    "delta": -13.292202982728455,
+    "ci95": [
+      -38.28664292931066,
+      7.959552781209405
+    ],
+    "scene_signflip_p": 0.5,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "B\u2212A",
+    "metric": "duration_wasserstein_ms",
+    "delta": -2.044010606156722,
+    "ci95": [
+      -6.475454521695309,
+      0.17766432126232265
+    ],
+    "scene_signflip_p": 0.5,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "B\u2212A",
+    "metric": "model_padding_fraction",
+    "delta": -0.13749999999999998,
+    "ci95": [
+      -0.27877314814814813,
+      -0.01619212962962969
+    ],
+    "scene_signflip_p": 0.25,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "C\u2212B",
+    "metric": "model_target_ever",
+    "delta": 0.022222222222222223,
+    "ci95": [
+      0.0,
+      0.08333333333333333
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "C\u2212B",
+    "metric": "count_nss",
+    "delta": 0.023019034653856272,
+    "ci95": [
+      -0.0003787632171380587,
+      0.09381972835819398
+    ],
+    "scene_signflip_p": 0.5,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "C\u2212B",
+    "metric": "duration_nss",
+    "delta": 0.04097165217750145,
+    "ci95": [
+      -0.0002785812479014536,
+      0.18314760471419433
+    ],
+    "scene_signflip_p": 0.125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "C\u2212B",
+    "metric": "spatial_dtw",
+    "delta": -0.0007037963299015181,
+    "ci95": [
+      -0.003960729800398322,
+      0.00193992868066208
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "C\u2212B",
+    "metric": "model_amplitude_all_px",
+    "delta": -0.49925833047941176,
+    "ci95": [
+      -11.882934254267871,
+      5.800451154732679
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "C\u2212B",
+    "metric": "duration_wasserstein_ms",
+    "delta": 0.40502405809347847,
+    "ci95": [
+      -1.1518334147314058,
+      3.39671948800074
+    ],
+    "scene_signflip_p": 0.75,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "C\u2212B",
+    "metric": "model_padding_fraction",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "D\u2212C",
+    "metric": "model_target_ever",
+    "delta": 0.016666666666666673,
+    "ci95": [
+      -0.17222222222222225,
+      0.24444444444444446
+    ],
+    "scene_signflip_p": 0.8125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "D\u2212C",
+    "metric": "count_nss",
+    "delta": 0.53044010789641,
+    "ci95": [
+      -0.3425335668876769,
+      2.104893000152018
+    ],
+    "scene_signflip_p": 0.53125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "D\u2212C",
+    "metric": "duration_nss",
+    "delta": 0.6341311497265455,
+    "ci95": [
+      -0.34973887620999744,
+      2.3487723887201706
+    ],
+    "scene_signflip_p": 0.53125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "D\u2212C",
+    "metric": "spatial_dtw",
+    "delta": -0.021827730140180954,
+    "ci95": [
+      -0.04918330950326135,
+      0.009315814150927132
+    ],
+    "scene_signflip_p": 0.15625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "D\u2212C",
+    "metric": "model_amplitude_all_px",
+    "delta": -35.123233190855935,
+    "ci95": [
+      -53.88356303383928,
+      -16.169549254961584
+    ],
+    "scene_signflip_p": 0.03125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "D\u2212C",
+    "metric": "duration_wasserstein_ms",
+    "delta": 1.3686696070091384,
+    "ci95": [
+      -5.496672379412154,
+      8.312179741180753
+    ],
+    "scene_signflip_p": 0.28125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "D\u2212C",
+    "metric": "model_padding_fraction",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "E\u2212D",
+    "metric": "model_target_ever",
+    "delta": -0.009722222222222235,
+    "ci95": [
+      -0.13333333333333333,
+      0.1111111111111111
+    ],
+    "scene_signflip_p": 0.9375,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "E\u2212D",
+    "metric": "count_nss",
+    "delta": -0.4012023131026847,
+    "ci95": [
+      -1.751807453912682,
+      0.3625809265534561
+    ],
+    "scene_signflip_p": 0.65625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "E\u2212D",
+    "metric": "duration_nss",
+    "delta": -0.5057097318178446,
+    "ci95": [
+      -2.0524728086574973,
+      0.30532803996816477
+    ],
+    "scene_signflip_p": 0.65625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "E\u2212D",
+    "metric": "spatial_dtw",
+    "delta": 1.0539652656152884e-05,
+    "ci95": [
+      -0.017078993721089036,
+      0.016507397148401572
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "E\u2212D",
+    "metric": "model_amplitude_all_px",
+    "delta": -27.12016803275974,
+    "ci95": [
+      -42.431447389350026,
+      -14.37944162354808
+    ],
+    "scene_signflip_p": 0.03125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "E\u2212D",
+    "metric": "duration_wasserstein_ms",
+    "delta": 0.28499558745922887,
+    "ci95": [
+      -8.61994383811915,
+      9.982341768075722
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "E\u2212D",
+    "metric": "model_padding_fraction",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212E",
+    "metric": "model_target_ever",
+    "delta": 0.19166666666666665,
+    "ci95": [
+      0.03146604938271606,
+      0.3666666666666667
+    ],
+    "scene_signflip_p": 0.0625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212E",
+    "metric": "count_nss",
+    "delta": 0.2760161069664025,
+    "ci95": [
+      -0.3398413024332349,
+      0.9826488507249806
+    ],
+    "scene_signflip_p": 0.34375,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212E",
+    "metric": "duration_nss",
+    "delta": 0.22787584530137273,
+    "ci95": [
+      -0.32281899699452044,
+      0.9047431569546878
+    ],
+    "scene_signflip_p": 0.59375,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212E",
+    "metric": "spatial_dtw",
+    "delta": 0.006203559662691191,
+    "ci95": [
+      -0.01955090192882607,
+      0.02997020426506689
+    ],
+    "scene_signflip_p": 0.71875,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212E",
+    "metric": "model_amplitude_all_px",
+    "delta": 39.568894595503686,
+    "ci95": [
+      14.927036676520581,
+      64.49398338534762
+    ],
+    "scene_signflip_p": 0.03125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212E",
+    "metric": "duration_wasserstein_ms",
+    "delta": -2.2335832765148314,
+    "ci95": [
+      -15.842121942174414,
+      10.851660885543579
+    ],
+    "scene_signflip_p": 0.65625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212E",
+    "metric": "model_padding_fraction",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "S\u2212E",
+    "metric": "model_target_ever",
+    "delta": 0.013888888888888886,
+    "ci95": [
+      -0.11353670634920635,
+      0.17108796296296247
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "S\u2212E",
+    "metric": "count_nss",
+    "delta": -0.02323434902046832,
+    "ci95": [
+      -0.5033500039188483,
+      0.5879237744744037
+    ],
+    "scene_signflip_p": 0.90625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "S\u2212E",
+    "metric": "duration_nss",
+    "delta": -0.033817077402849234,
+    "ci95": [
+      -0.45922306556664994,
+      0.48321100666349587
+    ],
+    "scene_signflip_p": 0.875,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "S\u2212E",
+    "metric": "spatial_dtw",
+    "delta": -0.0007520142650634595,
+    "ci95": [
+      -0.015592929003992116,
+      0.011894110862835316
+    ],
+    "scene_signflip_p": 0.875,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "S\u2212E",
+    "metric": "model_amplitude_all_px",
+    "delta": 11.319865752937462,
+    "ci95": [
+      -0.17434398279211458,
+      23.163258681928827
+    ],
+    "scene_signflip_p": 0.03125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "S\u2212E",
+    "metric": "duration_wasserstein_ms",
+    "delta": -2.77646399045215,
+    "ci95": [
+      -11.346814010604845,
+      4.961494901381626
+    ],
+    "scene_signflip_p": 0.25,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "S\u2212E",
+    "metric": "model_padding_fraction",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212S",
+    "metric": "model_target_ever",
+    "delta": 0.17777777777777778,
+    "ci95": [
+      -0.033333333333333326,
+      0.38333333333333336
+    ],
+    "scene_signflip_p": 0.1875,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212S",
+    "metric": "count_nss",
+    "delta": 0.2992504559868708,
+    "ci95": [
+      -0.5425107531853526,
+      1.1879266924744838
+    ],
+    "scene_signflip_p": 0.40625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212S",
+    "metric": "duration_nss",
+    "delta": 0.26169292270422195,
+    "ci95": [
+      -0.4731385923136269,
+      1.0314940376782695
+    ],
+    "scene_signflip_p": 0.53125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212S",
+    "metric": "spatial_dtw",
+    "delta": 0.00695557392775465,
+    "ci95": [
+      -0.016612224134826378,
+      0.031421755904254375
+    ],
+    "scene_signflip_p": 0.5625,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212S",
+    "metric": "model_amplitude_all_px",
+    "delta": 28.24902884256623,
+    "ci95": [
+      -1.2909421546125546,
+      55.637980372583236
+    ],
+    "scene_signflip_p": 0.125,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212S",
+    "metric": "duration_wasserstein_ms",
+    "delta": 0.5428807139373184,
+    "ci95": [
+      -9.930167498398138,
+      11.311171079220257
+    ],
+    "scene_signflip_p": 0.9375,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212S",
+    "metric": "model_padding_fraction",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212N",
+    "metric": "model_target_ever",
+    "delta": 0.03333333333333333,
+    "ci95": [
+      -0.016666666666666666,
+      0.125
+    ],
+    "scene_signflip_p": 0.5,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212N",
+    "metric": "count_nss",
+    "delta": -0.028954558175396976,
+    "ci95": [
+      -0.17547356900337674,
+      0.10353703624475934
+    ],
+    "scene_signflip_p": 0.4375,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212N",
+    "metric": "duration_nss",
+    "delta": -0.040036983329480795,
+    "ci95": [
+      -0.15892940015933565,
+      0.01027433615070019
+    ],
+    "scene_signflip_p": 0.09375,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212N",
+    "metric": "spatial_dtw",
+    "delta": -0.0011658626997414498,
+    "ci95": [
+      -0.008419744664242309,
+      0.006646677553368276
+    ],
+    "scene_signflip_p": 0.1875,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212N",
+    "metric": "model_amplitude_all_px",
+    "delta": 4.946258216641776,
+    "ci95": [
+      -2.896058583798171,
+      16.450943670675404
+    ],
+    "scene_signflip_p": 0.375,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212N",
+    "metric": "duration_wasserstein_ms",
+    "delta": 2.0446330571613456,
+    "ci95": [
+      -3.7584349578950507,
+      7.914980872203162
+    ],
+    "scene_signflip_p": 0.5,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  },
+  {
+    "comparison": "F\u2212N",
+    "metric": "model_padding_fraction",
+    "delta": 0.0,
+    "ci95": [
+      0.0,
+      0.0
+    ],
+    "scene_signflip_p": 1.0,
+    "scenes": 6,
+    "holm_p_all_endpoints": 1.0
+  }
+]

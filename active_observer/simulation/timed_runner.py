@@ -1,0 +1,59 @@
+"""Three timing variants with unchanged Phase-2 policy and world-update functions."""
+from dataclasses import asdict
+import hashlib
+import numpy as np
+from active_observer.io.image import Camera
+from active_observer.world.model import World
+from active_observer.perception.foveation import observe
+from active_observer.perception.objects import ClassicalObjects
+from active_observer.perception.depth import update_observed_depth
+from active_observer.perception.factory import ProviderFactory
+from active_observer.attention.policy import score,choose
+from active_observer.attention.processing import processing_context
+from active_observer.attention.timing import TimingParameters,simulate_timing,saccade_duration_ms
+
+
+def decay_without_observation(world,elapsed_ms):
+    world.time+=elapsed_ms
+    for m in world.objects:
+        m.confidence*=np.exp(-elapsed_ms/world.config.memory_decay_ms);m.ior*=np.exp(-elapsed_ms/1200);m.visibility=0.;m.state='remembered' if m.confidence>.2 else 'uncertain'
+        m.identity_uncertainty=min(1,m.identity_uncertainty+.02*elapsed_ms/world.config.memory_decay_ms);m.position_uncertainty=min(1,m.position_uncertainty+.04*elapsed_ms/world.config.memory_decay_ms)
+
+
+def run_timed(image,cfg,*,image_id='image',target='',start=None,object_provider=None,depth_provider=None,camera=None,provider_factory=None,include_depth_reference=True):
+    h,w=image.shape[:2]
+    if image.ndim!=3 or image.shape[2]!=3 or image.dtype!=np.uint8:raise ValueError('Expected uint8 RGB image')
+    camera=camera or Camera(w,h)
+    if (camera.width,camera.height)!=(w,h):raise ValueError('Camera/image dimensions differ')
+    gaze=tuple(start or ((w-1)/2,(h-1)/2));camera.bearing(*gaze);world=World(w,h,cfg)
+    if object_provider is None:
+        objects,selected_depth=(provider_factory or ProviderFactory()).get(cfg);object_provider=objects
+        if depth_provider is None:depth_provider=selected_depth
+    objects=object_provider or ClassicalObjects();depth=depth_provider.predict(image) if depth_provider is not None and cfg.depth_enabled else None
+    selection=np.random.default_rng(cfg.seed);timing_rng=np.random.default_rng(np.random.SeedSequence([cfg.seed,1]));params=TimingParameters(**cfg.timing).validate();fixations=[];saccades=[];elapsed=0.;pending=None;reason='fixation budget'
+    for step in range(cfg.max_fixations):
+        onset=elapsed;observation=observe(image,gaze,cfg);detections=objects.detect(observation);plans=score(world,observation,target,cfg);processing=processing_context(world,observation,detections,params.sensory_tau_ms)
+        timing=simulate_timing([p['utility'] for p in plans],processing,cfg.timing_model,params,timing_rng,remaining_ms=cfg.time_budget_ms-elapsed,heuristic_terms=pending['terms'] if pending else None,initial=pending is None)
+        dwell=timing['duration_ms']
+        if dwell<=0:reason='time budget';break
+        # Commit once at termination: same evidence/association/habituation functions as V2.
+        world.update(detections,observation,dwell)
+        if depth is not None:update_observed_depth(world,observation,depth,camera)
+        scores=score(world,observation,target,cfg);current=pending or dict(id='initial',kind='initial',terms={},uncertainty=1.,relative_depth=None,depth_uncertainty=1.)
+        fixation=dict(image_id=image_id,step=step,x_px=float(gaze[0]),y_px=float(gaze[1]),x_norm=float(gaze[0]/w),y_norm=float(gaze[1]/h),duration_ms=dwell,fixation_onset_ms=onset,fixation_offset_ms=onset+dwell,chosen_candidate=current['id'],candidate_kind=current['kind'],mode='initial' if pending is None else 'stay' if pending.get('distance',1)<1 else 'shift',utility_terms=current['terms'],candidate_details=current,random_seed=cfg.seed,foveation_geometry=observation.geometry,memory=world.snapshot(),next_candidates=scores,timing=timing,right_censored=timing['right_censored'],saccade_onset_ms=None,saccade_duration_ms=0.,next_fixation_onset_ms=None)
+        fixation['timing']['candidate_ids']=[p['id'] for p in plans];fixation['timing']['plan_winner_id']=plans[timing['winner_index']]['id'] if timing['winner_index'] is not None else None
+        fixations.append(fixation);elapsed+=dwell
+        if cfg.stop_on_target and target and any(m.state=='observed' and observation.central[min(h-1,int(m.centroid[1])),min(w-1,int(m.centroid[0]))] and m.probabilities.get(target,0)*m.confidence>=cfg.target_threshold for m in world.objects):reason='explicit target detection';break
+        if step+1>=cfg.max_fixations:reason='fixation budget';break
+        if not timing['completed']:reason='timing safety limit' if timing['safety_timeout'] else 'time budget';break
+        if elapsed>=cfg.time_budget_ms-1e-9:reason='time budget';break
+        if params.selection_mode=='race' and timing['winner_index'] is not None:
+            planned=plans[timing['winner_index']];pending=dict(next((p for p in scores if p['id']==planned['id']),planned))
+        else:pending=dict(choose(scores,selection))
+        distance=float(np.hypot(pending['x']-gaze[0],pending['y']-gaze[1]));pending['distance']=distance;world.consecutive_stays=world.consecutive_stays+1 if pending['kind']=='stay' else 0
+        execution=saccade_duration_ms(distance,params,cfg.pixels_per_degree);observed_execution=min(execution,max(0,cfg.time_budget_ms-elapsed));fixation['saccade_onset_ms']=elapsed if distance>=1 else None;fixation['saccade_duration_ms']=execution;fixation['next_fixation_onset_ms']=elapsed+execution;fixation['next_chosen_candidate']=pending['id'];fixation['next_fixation_xy']=[pending['x'],pending['y']]
+        if distance>=1:saccades.append(dict(onset_ms=elapsed,duration_ms=execution,observed_duration_ms=observed_execution,amplitude_px=distance,amplitude_degrees=distance/cfg.pixels_per_degree if cfg.pixels_per_degree else None,right_censored=observed_execution<execution,from_xy=list(gaze),to_xy=[pending['x'],pending['y']]))
+        elapsed+=observed_execution;decay_without_observation(world,observed_execution)
+        if observed_execution<execution or elapsed>=cfg.time_budget_ms-1e-9:reason='time budget during saccade';break
+        gaze=(pending['x'],pending['y'])
+    return dict(schema_version=2,model='rgb-active-observer-phase3-timing',image_id=image_id,image_sha256=hashlib.sha256(image.tobytes()).hexdigest(),width=w,height=h,config=cfg.to_dict(),camera=camera.metadata(),target=target,fixations=fixations,saccades=saccades,duration_ms=elapsed,stop_reason=reason,termination=dict(action='stop',reason=reason,elapsed_ms=elapsed),depth=dict(available=depth is not None,reference=depth.reference() if depth is not None and include_depth_reference else None,metadata=depth.metadata if depth is not None else None),perception=objects.metadata() if hasattr(objects,'metadata') else dict(provider=type(objects).__name__),timing_parameters=asdict(params),assumptions=['Phase-2 spatial weights, feature providers and world updates unchanged','Online saturating processing proxy drives hold; world state committed once per fixation to avoid tick-count-dependent familiarity','Primary softmax mode preserves spatial selector; competing plans control readiness, optional race selection is separate','Motor preparation is part of fixation; saccade execution is excluded from fixation duration','No future human fixation information; timing parameters require train/validation calibration'])

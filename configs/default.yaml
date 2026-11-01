@@ -1,0 +1,5 @@
+seed: 42
+max_fixations: 16
+time_budget_ms: 6000
+# Null means explicitly uncalibrated pixel-based foveation.
+pixels_per_degree: null
