@@ -27,7 +27,7 @@ def main():
     image=cv2.imread(str(source));root=Path('examples/photos');root.mkdir(parents=True,exist_ok=True);records=[]
     for key,name,yaw in VIEWS:
         dest=root/(key+'.jpg');cv2.imwrite(str(dest),perspective(image,yaw),[cv2.IMWRITE_JPEG_QUALITY,95])
-        records.append(dict(id=key,name=name,path=str(dest),target='person',yaw_degrees=yaw,fov_degrees=90,pitch_degrees=-5,sha256=hashlib.sha256(dest.read_bytes()).hexdigest()))
+        records.append(dict(id=key,name=name,path=str(dest),yaw_degrees=yaw,fov_degrees=90,pitch_degrees=-5,sha256=hashlib.sha256(dest.read_bytes()).hexdigest()))
     (root/'manifest.json').write_text(json.dumps(dict(source_url=URL,source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),source_note='Same Porto panorama used by Gaze Lab; perspective projection only. Repository MIT license; stimulus-specific license not separately documented.',scenes=records),indent=2))
     print('Prepared three real Porto environment views; no object annotations were supplied.')
 

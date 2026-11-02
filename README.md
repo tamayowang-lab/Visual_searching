@@ -1,92 +1,87 @@
-# RGB Active Visual Observer
+# Gaze-dependent reconstruction observer
 
-RGB means an ordinary RGB photograph of a real environment. The observer
-searches the scene through gaze-dependent visual input, remembers centrally
-acquired object hypotheses, and records why it looks somewhere or stops.
+The scientific definition is in [MODEL.md](MODEL.md). This branch is a clean
+foundation for that model, with one execution path and explicit missing
+capabilities. It is not a complete 3D reconstruction system or a validated model
+of human vision.
 
-The default browser demonstration uses the **Porto riverside photograph from
-Gaze Lab**, projected into three perspective views. All gaze trajectories,
-sensory frames, priority maps, object memory, and decisions come from actual
-Python simulation runs. No object boxes or scene labels are provided to inference.
+## Scientific boundaries
 
-## Open the demonstration
+- Recognition and 2D localization uncertainty are stored separately from depth
+  and dimension uncertainty.
+- Scene-level ensemble summaries are separate from individual object memory.
+  Coarse connected structures are not an object-count estimate.
+- Predicted information gain is separate from measured consistency proxies.
+  Actual 3D improvement is `null` without reference evidence.
+- Every depth inference receives current gaze-dependent RGB. The runner never
+  supplies the complete original photograph to a depth estimator.
+- Hidden thickness and unidentified scale remain unknown; no complete metric
+  cuboid or aligned 3D fusion is claimed.
 
-Published private viewer:
-<https://active-observer-visual-demo.tamayowang.chatgpt.site>
-
-It supports exploration and goal-directed search for a person, recorded seed
-selection, playback, fixed-time inspection, priority-component inspection,
-central object memory, tentative peripheral cues, and stopping explanations.
-The hosted version replays recorded Python results; it does not execute Python.
-
-## Local setup and launch
-
-Python 3.11 or newer:
+## Run
 
 ```bash
 python -m pip install -e '.[test]'
 python -m pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cpu
 python scripts/setup_perception.py --download --objects-only
-python -m active_observer.autonomous.demo --seeds 42 43 --serve
+active-observer examples/photos/porto-square.jpg --config configs/default.yaml --out outputs/foundation
 ```
 
-Open <http://localhost:8000/> on the machine running that server. The local
-viewer can regenerate arbitrary seeds through its Python endpoint. The three
-prepared photographs are in `examples/photos/`. To recover their original
-panorama and reproduce the perspective projection:
+`configs/default.yaml` is explicitly a perception-only diagnostic until a depth
+provider is configured. Its result reports unavailable depth and never claims a
+completed 3D reconstruction. It is useful for checking the sensory, memory and
+attention wiring without downloading depth assets.
+
+For the retained MiDaS adapter:
 
 ```bash
-python scripts/prepare_photo_demo.py --download
+python -m pip install timm==0.6.13
+python scripts/setup_perception.py --download
+active-observer examples/photos/porto-square.jpg --config configs/with-depth.yaml --out outputs/with-depth
 ```
 
-For your own real environment photograph:
+This enables per-fixation depth inference, not cross-fixation scale alignment
+or complete physical object recovery. Missing checkpoints fail explicitly.
+No pretrained downloads happen inside the runner. The depth-enabled path was
+checked with instrumented test sensors; this cleanup did not download or
+validate the MiDaS weights.
+
+Each run writes `run.json` and an exact-input diagnostic `inspector.html`.
+Open the inspector locally. `--inspect-seconds 15` writes a causal prefix to
+`inspection.json` without changing the autonomous trajectory. The only execution
+limit is an administrative elapsed-time safeguard, normally 60 seconds.
+
+## Small code surface
+
+```text
+perception/     gaze-dependent RGB, central object providers, depth adapters
+world/          object association, separate reconstruction state, ensemble summaries
+attention/      dense priority field and one lognormal timing heuristic
+simulation/     sole runner, inspectable stopping, causal replay snapshots
+viz/            diagnostic replay of actual states
+```
+
+Configuration has no phase dispatcher, fixation-count limit, target instruction,
+predefined attention candidates, or timing-race variants. Unsupported old
+configuration keys fail instead of silently changing behavior.
 
 ```bash
-active-observer run-one photograph.jpg --out outputs/scene
-active-observer run-one photograph.jpg --mode search --target person --out outputs/search
-active-observer run-one photograph.jpg --condition fixed_time --duration 15 --out outputs/15-seconds
+python -m pytest -q
 ```
 
-Open the generated `inspector.html`. The full autonomous history is saved as
-`run.json`; fixed-time runs additionally save a causal `fixed-time-view.json`.
+The focused tests require no model downloads or human datasets. See
+[implementation status](docs/implementation-status.md) and
+[cleanup record](docs/cleanup.md). The earlier implementation and its reports
+are recoverable from `archive/pre-reconstruction-cleanup`.
 
-## Current model
+## Real photographs
 
-Normal runs use `simulation.runner.run → autonomous.runner.run_autonomous`.
-`configs/default.yaml` selects the existing CPU SSDLite detector, heuristic
-lognormal timing, and dense spatial softmax selection (temperature 0.08).
-The autonomous loop has no fixation-count limit and ignores the legacy attention
-candidate grid and legacy viewing budget. A 60-second administrative timeout
-protects normal runs; demonstration recordings use 20 seconds.
+`examples/photos/` contains perspective views of the Porto riverside panorama
+used in the previous visual-searching demo. These are ordinary RGB environment
+photographs. Their manifest records source hash and projection parameters;
+it supplies no target labels or object boxes. Regenerate them with
+`python scripts/prepare_photo_demo.py --download`.
 
-Central input retains the observed RGB pixels. Peripheral input is reduced to
-32 pixels wide before enlargement. The existing SSDLite model processes this
-bounded peripheral input for **tentative** category cues, which can guide
-search but cannot verify a target or enter central semantic memory. Only
-centrally gated detections update object identity memory and count toward
-repeated-evidence target verification.
-
-Dense priority shows salience, peripheral support, novelty, uncertainty,
-expected information gain, semantic task relevance, movement cost, and
-inhibition of return. Each choice and stopping assessment is recorded.
-Fixed-time and until-finished inspection use the same autonomous history.
-Confidence, information and expected-value scores are heuristic, uncalibrated
-model estimates. A detector prediction can be wrong; the viewer displays its
-actual hypotheses rather than supplying corrected identities.
-
-Historical phase runners remain available through `execution_path: archived`.
-Their documents and statistical reports are historical experiments, not the
-current default. The lightweight structural provider proposes unlabeled
-contrast structures and never claims semantic object recognition.
-
-## Checks and scope
-
-See `docs/autonomous-repair.md` for architecture, current demonstration results,
-and focused verification. No full Phase 4B/5 evaluation pipeline or new dataset
-was run for this repair. The existing SSDLite model was reused; no new network
-architecture was added. Depth remains outside the current demonstration.
-
-The Porto source is the Salient360 toolbox's `1_PortoRiverside.png`:
-<https://github.com/David-Ef/salient360Toolbox>. Source hashes, projection angles
-and provenance are recorded in `examples/photos/manifest.json`. The repository
-has an MIT license; no separate stimulus-specific license was documented.
+Source: [Salient360 Toolbox](https://github.com/David-Ef/salient360Toolbox).
+The repository has an MIT license; a separate stimulus-specific license was
+not documented. No human evaluation data was downloaded for this branch.

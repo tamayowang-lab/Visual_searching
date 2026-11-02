@@ -1,0 +1,13 @@
+seed: 42
+objects:
+  provider: torchvision_ssdlite
+  checkpoint: .cache/models/ssdlite320_mobilenet_v3_large_coco-a79551df.pth
+  threshold: 0.3
+  context_scale: 3.0
+depth:
+  provider: midas_small
+  checkpoint: .cache/models/midas_v21_small_256.pt
+  source: .cache/models/MiDaS-454597711a62eabcbf7d1e89f3fb9f569051ac9b
+  revision: 454597711a62eabcbf7d1e89f3fb9f569051ac9b
+# Depth is inferred on each fixation's sensory RGB. Missing assets raise an error.
+# Output is relative and unaligned across fixations, never metric ground truth.

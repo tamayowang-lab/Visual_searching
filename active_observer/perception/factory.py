@@ -1,42 +1,35 @@
-"""One provider factory shared by single-image, preview and empirical evaluation."""
+"""Provider construction; providers never receive a privileged original image."""
 from pathlib import Path
-import json,warnings
-from .objects import ClassicalObjects
-from .depth import CachedDepth,PrecomputedDepth,ConstantDepth,TransformersDepth
+import json
+from .depth import CachedDepth,TransformersDepth
 
 class ProviderFactory:
     def __init__(self):self.objects={};self.depths={}
-    def get(self,config,record=None):
-        spec=config.perception;cache=Path(spec.get('cache_directory','.cache/observer'));object_spec=spec.get('objects',{'provider':'classical'});depth_spec=spec.get('depth',{'provider':'none'})
-        if object_spec.get('provider')=='auto':
-            object_spec=({'provider':'torchvision_ssdlite','checkpoint':'.cache/models/ssdlite320_mobilenet_v3_large_coco-a79551df.pth','threshold':.3,'context_scale':3.}
-                         if config.execution_path=='autonomous' else {'provider':'classical'})
-        key=json.dumps(object_spec,sort_keys=True);name=object_spec.get('provider','classical')
-        if not config.semantic_enabled:name='classical';key='classical'
+
+    def get_objects(self,config):
+        spec=dict(config.objects);name=spec.pop('provider');key=json.dumps(config.objects,sort_keys=True)
         if key not in self.objects:
-            if name=='classical':self.objects[key]=ClassicalObjects()
-            elif name=='torchvision_ssdlite':
-                from .pretrained import TorchvisionFoveal,CachedObjects
-                args={k:v for k,v in object_spec.items() if k!='provider'};self.objects[key]=CachedObjects(TorchvisionFoveal(**args),cache/'objects')
+            from .pretrained import CachedObjects
+            if name=='torchvision_ssdlite':
+                from .pretrained import TorchvisionFoveal
+                source=TorchvisionFoveal(**spec)
             elif name=='transformers':
                 from .objects import FovealTransformersObjects
-                from .pretrained import CachedObjects
-                self.objects[key]=CachedObjects(FovealTransformersObjects(**{k:v for k,v in object_spec.items() if k!='provider'}),cache/'objects')
-            else:raise ValueError('Unknown object provider: '+name)
-        depth=None
-        if config.depth_enabled:
-            if record and record.get('depth_path'):depth=PrecomputedDepth(record['depth_path'],kind=record.get('depth_kind','inverse_depth'))
-            elif depth_spec.get('provider','none')!='none':
-                dk=json.dumps(depth_spec,sort_keys=True)
-                if dk not in self.depths:
-                    args={k:v for k,v in depth_spec.items() if k!='provider'}
-                    if depth_spec['provider']=='midas_small':
-                        from .pretrained import MidasSmall
-                        source=MidasSmall(**args)
-                    elif depth_spec['provider']=='transformers':source=TransformersDepth(**args)
-                    elif depth_spec['provider']=='constant':source=ConstantDepth()
-                    elif depth_spec['provider']=='precomputed':source=PrecomputedDepth(**args)
-                    else:raise ValueError('Unknown depth provider')
-                    self.depths[dk]=CachedDepth(source,cache/'depth',dk)
-                depth=self.depths[dk]
-        return self.objects[key],depth
+                source=FovealTransformersObjects(**spec)
+            else:raise ValueError('Choose a centrally gated object provider')
+            self.objects[key]=CachedObjects(source,Path(config.cache_directory)/'objects')
+        return self.objects[key]
+
+    def get_depth(self,config):
+        spec=dict(config.depth);name=spec.pop('provider','none');depth=None
+        if name!='none':
+            key=json.dumps(config.depth,sort_keys=True)
+            if key not in self.depths:
+                if name=='midas_small':
+                    from .pretrained import MidasSmall
+                    source=MidasSmall(**spec)
+                elif name=='transformers':source=TransformersDepth(**spec)
+                else:raise ValueError('Depth must be inferred from current gaze-dependent RGB; precomputed full-scene depth is not a runtime provider')
+                self.depths[key]=CachedDepth(source,Path(config.cache_directory)/'depth',key)
+            depth=self.depths[key]
+        return depth

@@ -7,7 +7,7 @@ def iou(a,b):
     return inter/max(area,1e-9)
 
 def known(p):
-    items=[(k,v) for k,v in p.items() if k!='unknown' and not k.endswith('-region')]
+    items=[(k,v) for k,v in p.items() if k!='unknown']
     return max(items,key=lambda x:x[1]) if items else ('unknown',0)
 
 def associate(memories: list,detections: list,diagonal: float,gate: float=.15) -> list[tuple[int,int]]:

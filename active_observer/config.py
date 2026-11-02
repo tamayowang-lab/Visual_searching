@@ -1,76 +1,44 @@
-"""Explicit spatial heuristics and independently selectable timing parameters."""
+"""Configuration for one reconstruction-oriented execution path."""
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
-import yaml
 import math
+import yaml
 
 @dataclass
 class Config:
-    execution_path: str = "autonomous"
-    spatial_temperature: float = .08
     seed: int = 42
-    max_fixations: int = 16
-    time_budget_ms: float = 6000
-    pixels_per_degree: float | None = None
-    central_degrees: float = 2.5
     central_fraction: float = .075
-    memory_decay_ms: float = 12000
-    grid_columns: int = 8
-    grid_rows: int = 5
-    temperature: float = .25
-    min_duration_ms: float = 100
-    max_duration_ms: float = 800
-    stop_on_target: bool = False
-    target_threshold: float = .8
-    depth_enabled: bool = True
-    memory_enabled: bool = True
-    uncertainty_enabled: bool = True
-    novelty_enabled: bool = True
-    history_enabled: bool = True
-    exploration_enabled: bool = True
-    semantic_enabled: bool = True
-    information_enabled: bool = True
-    information_model: str = "expected_reduction"
-    evidence_model: str = "bounded"
+    peripheral_width: int = 32
+    memory_decay_ms: float = 12000.
     evidence_time_ms: float = 250.
-    stay_enabled: bool = True
-    max_consecutive_stays: int = 2
-    perception: dict = field(default_factory=lambda: dict(objects={'provider':'auto'},depth={'provider':'none'}))
-    timing_model: str = 'heuristic_lognormal'
-    timing: dict = field(default_factory=dict)
-    policy: str = "full"
-    weights: dict = field(default_factory=lambda: dict(salience=.8, task=1.3, context=.35, novelty=.45, info=.65, move=.5, history=.6))
-    active: dict = field(default_factory=dict)
-    experiment: dict = field(default_factory=dict)
-    stopping: dict = field(default_factory=dict)
-    context_priors: dict = field(default_factory=dict)
+    priority_width: int = 64
+    spatial_temperature: float = .08
+    timing_mean_ms: float = 250.
+    timing_sigma: float = .18
+    administrative_timeout_ms: float = 60000.
+    minimum_observation_ms: float = 1500.
+    minimum_coverage: float = .7
+    expected_value_threshold: float = .01
+    low_value_patience: int = 3
+    observation_cost: float = .035
+    cache_directory: str = '.cache/observer-reconstruction'
+    objects: dict = field(default_factory=lambda: dict(provider='torchvision_ssdlite',checkpoint='.cache/models/ssdlite320_mobilenet_v3_large_coco-a79551df.pth',threshold=.3,context_scale=3.))
+    depth: dict = field(default_factory=lambda: dict(provider='none'))
 
     def validate(self):
-        if not math.isfinite(self.spatial_temperature) or self.spatial_temperature<=0:raise ValueError("Positive finite spatial temperature required")
-        if self.execution_path not in {"autonomous", "archived"}:raise ValueError("Unknown execution path")
-        if self.execution_path == "archived" and (self.max_fixations < 1 or self.time_budget_ms <= 0): raise ValueError("Positive fixation and time budgets required")
-        if self.execution_path == "archived" and (self.grid_columns < 1 or self.grid_rows < 1 or self.temperature <= 0): raise ValueError("Invalid grid/temperature")
-        if self.memory_decay_ms <= 0 or not 0 < self.central_fraction <= .5 or self.central_degrees <= 0: raise ValueError("Invalid memory/foveation settings")
-        if self.pixels_per_degree is not None and self.pixels_per_degree <= 0: raise ValueError("pixels_per_degree must be positive")
-        if not 0 < self.min_duration_ms <= self.max_duration_ms: raise ValueError("Invalid duration bounds")
-        if self.policy not in {"full", "center", "random_center", "salience", "salience_ior", "random_walk"}: raise ValueError("Unknown policy")
-        if self.evidence_model not in {'bounded','legacy'} or self.information_model not in {'expected_reduction','uncertainty_novelty'}: raise ValueError('Unknown evidence/information model')
-        if self.evidence_time_ms<=0 or self.max_consecutive_stays<0: raise ValueError('Invalid evidence/stay parameters')
-        if self.timing_model not in {'phase2','heuristic_lognormal','accumulator','accumulator_hold'}:raise ValueError('Unknown timing model')
-        from .attention.timing import TimingParameters
-        TimingParameters(**self.timing).validate()
-        from .experiment.options import ExperimentOptions,StoppingOptions
-        experiment=ExperimentOptions(**self.experiment).validate();StoppingOptions(**self.stopping).validate()
-        if self.execution_path=='archived' and experiment.enabled and self.timing_model=='phase2':raise ValueError('Phase 5 uses one of the three preserved Phase 3 timing models')
-        from .active.options import ActiveOptions
-        options=ActiveOptions(**self.active).validate()
-        if self.execution_path=='archived' and options.enabled and self.timing_model=='phase2':raise ValueError('Phase 4B requires one of the three Phase 3 timing models; archived Phase 2 stays available with active disabled')
-        if set(self.weights) != {"salience","task","context","novelty","info","move","history"}: raise ValueError("Seven explicit utility weights required")
-        if any(not 0 <= float(v) < 100 for v in self.weights.values()): raise ValueError("Weights must be finite and nonnegative")
+        for name in ['memory_decay_ms','evidence_time_ms','spatial_temperature','timing_mean_ms','timing_sigma','administrative_timeout_ms']:
+            if not math.isfinite(getattr(self,name)) or getattr(self,name)<=0:raise ValueError(f'{name} must be positive and finite')
+        if not 0<self.central_fraction<=.5:raise ValueError('Invalid central fraction')
+        if not isinstance(self.seed,int) or self.seed<0:raise ValueError('Nonnegative integer seed required')
+        for name in ['peripheral_width','priority_width','low_value_patience']:
+            if not isinstance(getattr(self,name),int) or getattr(self,name)<1:raise ValueError(f'{name} must be a positive integer')
+        if not 0<=self.minimum_coverage<=1:raise ValueError('Invalid coverage threshold')
+        for name in ['minimum_observation_ms','expected_value_threshold','observation_cost']:
+            if not math.isfinite(getattr(self,name)) or getattr(self,name)<0:raise ValueError(f'Invalid {name}')
         return self
 
     @classmethod
-    def load(cls, path=None):
+    def load(cls,path=None):
         return cls(**(yaml.safe_load(Path(path).read_text(encoding='utf-8')) or {})).validate() if path else cls().validate()
 
-    def to_dict(self): return asdict(self)
+    def to_dict(self):return asdict(self)

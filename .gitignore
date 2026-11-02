@@ -4,26 +4,5 @@ __pycache__/
 *.egg-info/
 outputs/
 .cache/
-
-# Trial-level evaluation tables stay local; image/participant aggregates are published.
-reports/phase2/trials.csv
-
-# Raw timing contexts and human event records must remain local.
-reports/phase3/trials.csv
-reports/phase3/events-private.json
-
-# Phase 4A publishes aggregates only.
-reports/phase4a/*private*
-reports/phase4a/predictions/
-reports/phase4a/overlays/
-reports/phase4a/reference-*
-
-# Build artifacts and raw Phase 4B research replays stay local.
 build/
-reports/phase4b/*private*
-reports/phase4b/predictions/
-reports/phase4b/images/
-reports/phase4b/data/
-
-# Local repair scratch and browser QA artifacts.
 /work/

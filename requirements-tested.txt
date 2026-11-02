@@ -3,7 +3,5 @@
 numpy==2.3.5
 scipy==1.17.0
 opencv-python-headless==4.11.0.86
-matplotlib==3.10.8
-pandas==2.2.3
 PyYAML==6.0.3
 pytest==8.3.5

@@ -1,61 +1,87 @@
-"""Sequential RGB observer; no novel viewpoints, head/eye controller or test labels."""
-from active_observer.perception.depth import update_observed_depth
+"""Single reconstruction-oriented runner; every sensor receives current input only."""
+from copy import deepcopy
 import hashlib
 import numpy as np
 from active_observer.config import Config
 from active_observer.io.image import Camera
 from active_observer.perception.foveation import observe
-from active_observer.perception.objects import ClassicalObjects
+from active_observer.perception.factory import ProviderFactory
+from active_observer.perception.depth import update_observed_depth
 from active_observer.world.model import World
-from active_observer.attention.policy import score,choose
-from active_observer.attention.dynamics import duration_ms
+from active_observer.world.ensemble import summarize
+from active_observer.attention.priority import PriorityField
+from active_observer.attention.timing import fixation_duration,saccade_duration
+from .stopping import StopController
 
 
-def run_phase2(image: np.ndarray,config: Config | None=None,*,image_id="image",target="",start=None,object_provider=None,depth_provider=None,camera=None,provider_factory=None,include_depth_reference=True):
-    cfg=(config or Config()).validate();h,w=image.shape[:2]
-    if image.ndim!=3 or image.shape[2]!=3 or image.dtype!=np.uint8: raise ValueError("Expected uint8 RGB image")
-    camera=camera or Camera(w,h)
-    if (camera.width,camera.height)!=(w,h): raise ValueError("Camera/image dimensions differ")
-    gaze=tuple(start or ((w-1)/2,(h-1)/2));camera.bearing(*gaze)
-    world=World(w,h,cfg)
-    if object_provider is None and (provider_factory is not None or cfg.perception.get('objects',{}).get('provider','classical')!='classical' or cfg.perception.get('depth',{}).get('provider','none')!='none'):
-        from active_observer.perception.factory import ProviderFactory
-        selected_objects,selected_depth=(provider_factory or ProviderFactory()).get(cfg)
-        object_provider=selected_objects
-        if depth_provider is None:depth_provider=selected_depth
-    objects=object_provider or ClassicalObjects()
-    selection=np.random.default_rng(cfg.seed);timing=np.random.default_rng(np.random.SeedSequence([cfg.seed,1]))
-    depth_frame=depth_provider.predict(image) if depth_provider is not None and cfg.depth_enabled else None
-    fixations=[];reason="fixation budget";elapsed=0.;pending=None
-    for step in range(cfg.max_fixations):
-        observation=observe(image,gaze,cfg)
-        dwell=duration_ms(pending,cfg,timing) if pending else float(np.clip(250,cfg.min_duration_ms,cfg.max_duration_ms))
-        dwell=min(dwell,cfg.time_budget_ms-elapsed)
-        if dwell<=0: reason="time budget";break
-        detections=objects.detect(observation);world.update(detections,observation,dwell)
-        if depth_frame is not None: update_observed_depth(world,observation,depth_frame,camera)
-        scores=score(world,observation,target,cfg)
-        current=pending or dict(id="initial",kind="initial",terms={},uncertainty=1.,relative_depth=None,depth_uncertainty=1.)
-        fixations.append(dict(image_id=image_id,step=step,x_px=float(gaze[0]),y_px=float(gaze[1]),x_norm=float(gaze[0]/w),y_norm=float(gaze[1]/h),duration_ms=float(dwell),chosen_candidate=current['id'],candidate_kind=current['kind'],mode="initial" if pending is None else "stay" if current['kind']=='stay' else "standby" if current["id"]=="standby" else "stay" if current.get('distance',1)<observation.radius_px/2 else "shift",utility_terms=current['terms'],candidate_details=current,random_seed=cfg.seed,foveation_geometry=observation.geometry,memory=world.snapshot(),next_candidates=scores))
-        elapsed+=dwell
-        if cfg.stop_on_target and target and any(m.state=='observed' and observation.central[min(h-1,int(m.centroid[1])),min(w-1,int(m.centroid[0]))] and m.probabilities.get(target,0)*m.confidence>=cfg.target_threshold for m in world.objects): reason="explicit target detection";break
-        if elapsed>=cfg.time_budget_ms: reason="time budget";break
-        pending=dict(choose(scores,selection));world.consecutive_stays=world.consecutive_stays+1 if pending['kind']=='stay' else 0;pending['distance']=float(np.hypot(pending['x']-gaze[0],pending['y']-gaze[1]));gaze=(pending['x'],pending['y'])
-    return dict(schema_version=1,model="rgb-active-observer-v2",image_id=image_id,image_sha256=hashlib.sha256(image.tobytes()).hexdigest(),width=w,height=h,config=cfg.to_dict(),camera=camera.metadata(),target=target,fixations=fixations,duration_ms=elapsed,stop_reason=reason,termination=dict(action="stop",reason=reason,elapsed_ms=elapsed),depth=dict(available=depth_frame is not None,reference=depth_frame.reference() if depth_frame is not None and include_depth_reference else None,metadata=depth_frame.metadata if depth_frame is not None else None,reason="provider supplied" if depth_frame is not None else "No depth provider or depth ablated"),perception=objects.metadata() if hasattr(objects,'metadata') else dict(provider=type(objects).__name__,semantic_input='foveated RGB; private manual test boxes gated centrally'),assumptions=["RGB static scene; no fabricated viewpoints","Heuristic utility and uncalibrated belief confidence","Classical foveated proto-objects unless a replaceable provider is supplied","No fitted human-likeness claim"])
+def central_detections(detections,observation):
+    h,w=observation.rgb.shape[:2];kept=[]
+    for d in detections:
+        if not np.isfinite(d.confidence) or not 0<=d.confidence<=1:raise ValueError('Invalid detector confidence')
+        if not d.probabilities or not all(np.isfinite(v) and 0<=v<=1 for v in d.probabilities.values()):raise ValueError('Invalid class support')
+        x1,y1,x2,y2=d.bbox
+        if not np.isfinite(d.bbox).all() or not (0<=x1<x2<=w and 0<=y1<y2<=h):raise ValueError('Invalid detector box')
+        x,y=(x1+x2)/2,(y1+y2)/2
+        if d.source=='semantic' and observation.central[min(h-1,int(y)),min(w-1,int(x))]:kept.append(d)
+    return kept
 
 
-def run(image,config=None,**kwargs):
-    """Default to the autonomous observer; old dispatch requires execution_path=archived."""
+def run(image,config=None,*,image_id='image',start=None,object_provider=None,depth_provider=None,camera=None,frame_callback=None):
     cfg=(config or Config()).validate()
-    if cfg.execution_path=='autonomous':
-        from active_observer.autonomous.runner import run_autonomous
-        return run_autonomous(image,cfg,**kwargs)
-    if cfg.experiment.get('enabled',False):
-        from active_observer.experiment.runner import run_experiment
-        return run_experiment(image,cfg,**kwargs)
-    if cfg.active.get('enabled',False):
-        from active_observer.active.runner import run_active
-        return run_active(image,cfg,**kwargs)
-    if cfg.timing_model=='phase2':return run_phase2(image,cfg,**kwargs)
-    from .timed_runner import run_timed
-    return run_timed(image,cfg,**kwargs)
+    if image.ndim!=3 or image.shape[2]!=3 or image.dtype!=np.uint8:raise ValueError('Expected uint8 RGB photograph')
+    h,w=image.shape[:2];camera=camera or Camera(w,h)
+    if (camera.width,camera.height)!=(w,h):raise ValueError('Camera/image dimensions differ')
+    gaze=tuple(start) if start is not None else ((w-1)/2,(h-1)/2)
+    if not (0<=gaze[0]<w and 0<=gaze[1]<h):raise ValueError('Off-screen starting gaze')
+    factory=ProviderFactory()
+    if object_provider is None:object_provider=factory.get_objects(cfg)
+    if depth_provider is None:depth_provider=factory.get_depth(cfg)
+    world=World(w,h,cfg);field=PriorityField(w,h,np.ones((h,w),bool),cfg.priority_width,cfg.spatial_temperature)
+    controller=StopController(cfg);selection=np.random.default_rng(cfg.seed)
+    timing=np.random.default_rng(np.random.SeedSequence([cfg.seed,1]))
+    fixations=[];elapsed=0.;termination=None
+    while elapsed<cfg.administrative_timeout_ms:
+        before=deepcopy(world.snapshot());onset=elapsed
+        observation=observe(image,gaze,cfg)
+        detections=central_detections(object_provider.detect(observation),observation)
+        # There is no depth call on `image`, including at initialization or cache fill.
+        depth=depth_provider.predict(observation.rgb.copy()) if depth_provider is not None else None
+        if depth is not None and depth.inverse_depth.shape!=(h,w):raise ValueError('Depth must align with gaze-dependent input')
+        summary=summarize(observation,cfg.peripheral_width)
+        planned=fixation_duration(cfg,timing,initial=not fixations)
+        dwell=min(planned,cfg.administrative_timeout_ms-elapsed)
+        measured=world.update(detections,observation,dwell,summary)
+        if depth is not None:update_observed_depth(world,observation,depth,camera)
+        field.update(observation,dwell);elapsed+=dwell
+        priority=field.score(observation,world);selected=field.choose(priority,selection)
+        coverage=float((1-np.exp(-field.exposure)).mean())
+        decision=controller.assess(priority,field.valid,coverage,elapsed,depth is not None)
+        timeout=elapsed>=cfg.administrative_timeout_ms
+        if timeout:decision.update(decision='stop',outcome='administrative_timeout',reason='Elapsed-time safety limit; reconstruction completion is unknown',administrative_timeout=True)
+        if decision['decision']=='stop':termination=dict(decision)
+        f=dict(step=len(fixations),gaze=list(gaze),onset_ms=onset,offset_ms=elapsed,duration_ms=dwell,
+               sensory_sha256=hashlib.sha256(observation.rgb.tobytes()).hexdigest(),radius_px=observation.radius_px,
+               depth_input_sha256=hashlib.sha256(observation.rgb.tobytes()).hexdigest() if depth is not None else None,
+               depth_metadata=deepcopy(depth.metadata) if depth is not None else None,
+               memory_before=before,memory_after=deepcopy(world.snapshot()),ensemble=summary.to_dict(),
+               priority=field.snapshot(priority),selected_next=None if termination else selected,
+               predicted_information_gain=selected['estimated_information_gain'],measured_proxies=measured,
+               stopping=decision,right_censored=dwell<planned,saccade_duration_ms=0.)
+        fixations.append(f)
+        if frame_callback:frame_callback(f,observation)
+        if termination:break
+        distance=float(np.hypot(selected['x']-gaze[0],selected['y']-gaze[1]))
+        execution=min(saccade_duration(distance),cfg.administrative_timeout_ms-elapsed)
+        f['saccade_duration_ms']=execution;elapsed+=execution;world.elapse(execution)
+        field.ior*=np.exp(-execution/1800)
+        if elapsed>=cfg.administrative_timeout_ms:
+            termination=dict(decision='stop',outcome='administrative_timeout',reason='Safety limit during saccade',administrative_timeout=True,reconstruction_validated=False)
+            f['termination_after_saccade']=dict(termination);break
+        gaze=(selected['x'],selected['y'])
+    return dict(schema_version=1,model='gaze-dependent-reconstruction-foundation',image_id=image_id,width=w,height=h,
+                image_sha256=hashlib.sha256(image.tobytes()).hexdigest(),config=cfg.to_dict(),camera=camera.metadata(),
+                fixations=fixations,duration_ms=elapsed,termination=termination,
+                capabilities=dict(gaze_dependent_depth=depth_provider is not None,ensemble_object_counts=False,
+                                  complete_cuboid_extent=False,cross_fixation_depth_scale_alignment=False,
+                                  measured_3d_reconstruction_improvement=False),
+                status='Foundation prototype; full proposed architecture is not implemented')

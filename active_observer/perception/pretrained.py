@@ -7,7 +7,7 @@ from dataclasses import asdict
 import hashlib,json,time,sys
 import numpy as np
 import cv2
-from .objects import Detection,ClassicalObjects,descriptor
+from .objects import Detection,descriptor
 from .depth import normalize
 
 SSD_SHA='a79551df90c79834bcd3bb3845ef9d966b5449a3a9b2833ae8404778ca5d65d2'
@@ -17,7 +17,7 @@ MIDAS_REVISION='454597711a62eabcbf7d1e89f3fb9f569051ac9b'
 
 def verify(path,expected):
     path=Path(path)
-    if not path.is_file():raise RuntimeError(f'Missing pretrained checkpoint: {path}; run scripts/setup_perception.py. No classical fallback was substituted.')
+    if not path.is_file():raise RuntimeError(f'Missing pretrained checkpoint: {path}; run scripts/setup_perception.py. No fallback sensor was substituted.')
     digest=hashlib.sha256(path.read_bytes()).hexdigest()
     if digest!=expected:raise ValueError(f'Checkpoint SHA256 mismatch: {path.name}')
     return digest
@@ -39,7 +39,7 @@ class TorchvisionFoveal:
         self.torch=torch;torch.set_num_threads(threads);self.version=torchvision.__version__;self.threshold=threshold;self.context_scale=context_scale
         self.model=ssdlite320_mobilenet_v3_large(weights=None,weights_backbone=None).eval().to('cpu')
         self.model.load_state_dict(torch.load(checkpoint,map_location='cpu',weights_only=True));self.labels=SSDLite320_MobileNet_V3_Large_Weights.DEFAULT.meta['categories'];self.calls=0;self.seconds=0.
-    def metadata(self):return dict(provider='torchvision_ssdlite_foveal',checkpoint_sha256=self.sha,architecture='ssdlite320_mobilenet_v3_large',torchvision=self.version,preprocessing='RGB /255; torchvision detection resize/normalization',semantic_gate='center inside central circle; box clipped to central square',context_scale=self.context_scale,threshold=self.threshold,device='cpu',full_image_semantics=False,peripheral_proposals='separate bounded peripheral cues; no pseudo-object memory')
+    def metadata(self):return dict(provider='torchvision_ssdlite_foveal',checkpoint_sha256=self.sha,architecture='ssdlite320_mobilenet_v3_large',torchvision=self.version,preprocessing='RGB /255; torchvision detection resize/normalization',semantic_gate='center inside central circle; box clipped to central square',context_scale=self.context_scale,threshold=self.threshold,device='cpu',full_image_semantics=False,peripheral_proposals='separate coarse grouping and ensemble statistics')
     def detect(self,observation):
         torch=self.torch;rgb=observation.rgb;h,w=rgb.shape[:2];x,y=observation.gaze;rad=observation.radius_px;context=rad*self.context_scale
         x1,y1=max(0,int(x-context)),max(0,int(y-context));x2,y2=min(w,int(np.ceil(x+context))),min(h,int(np.ceil(y+context)))

@@ -1,23 +1,15 @@
-# Normal simulations use this one autonomous path. Other dataclass defaults
-# are retained for archived reproduction and do not control this observer.
-execution_path: autonomous
 seed: 42
+central_fraction: 0.075
+peripheral_width: 32
+priority_width: 64
 spatial_temperature: 0.08
-timing_model: heuristic_lognormal
-depth_enabled: false
-experiment:
-  behavior_mode: explore
-  observation_condition: until_finished
-  fixed_time_ms: 15000
-  administrative_timeout_ms: 60000
-stopping:
-  allow_absence: false
-perception:
-  cache_directory: .cache/observer
-  objects:
-    provider: torchvision_ssdlite
-    checkpoint: .cache/models/ssdlite320_mobilenet_v3_large_coco-a79551df.pth
-    threshold: 0.3
-    context_scale: 3.0
-  depth:
-    provider: none
+administrative_timeout_ms: 60000
+objects:
+  provider: torchvision_ssdlite
+  checkpoint: .cache/models/ssdlite320_mobilenet_v3_large_coco-a79551df.pth
+  threshold: 0.3
+  context_scale: 3.0
+depth:
+  provider: none
+# This is an explicit perception-only diagnostic until a depth provider is set.
+# Its output is never labeled a completed 3D reconstruction.
