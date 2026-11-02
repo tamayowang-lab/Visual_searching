@@ -1,3 +1,8 @@
+# Historical foundation cleanup
+
+This record describes commit 472e40e. Subsequent repairs and the recorded 3D
+laboratory are documented in laboratory.md and repair-audit.md.
+
 # Reconstruction refocus
 
 Working branch: `refactor/gaze-dependent-3d-observer`.

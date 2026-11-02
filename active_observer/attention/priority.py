@@ -30,7 +30,7 @@ class PriorityField:
         self.ior *= np.exp(-dwell_ms / 1800)
         self.ior = np.maximum(self.ior, np.exp(-.5 * (distance / observation.radius_px)**2))
 
-    def score(self, observation, world):
+    def score(self, observation, world, ensemble=None):
         rgb=cv2.resize(observation.rgb,(self.w,self.h),interpolation=cv2.INTER_AREA).astype(float)/255
         gray=rgb.mean(axis=2)
         contrast=np.linalg.norm(rgb-np.median(rgb.reshape(-1,3),axis=0),axis=2)
@@ -47,16 +47,22 @@ class PriorityField:
             need=max(geometry.depth_uncertainty,max(geometry.dimension_uncertainty[:2]))
             need*=float(np.exp(-memory.observation_count/3))
             geometric_need=np.maximum(geometric_need,kernel*need)
+        grouping=np.zeros_like(novelty)
+        if ensemble is not None:
+            for region in ensemble.local_regions:
+                x1,y1,x2,y2=region['region'];cx,cy=(x1+x2)/2,(y1+y2)/2
+                spread=max(observation.radius_px,.25*np.hypot(x2-x1,y2-y1))
+                weight=region['edge_density']*region['mean_reliability']
+                grouping=np.maximum(grouping,weight*np.exp(-.5*((self.x-cx)**2+(self.y-cy)**2)/spread**2))
         # This is a declared prediction proxy. It is never logged as actual improvement.
         gain=(.15+.85*support)*novelty+.35*geometric_need
         movement=np.hypot(self.x-observation.gaze[0],self.y-observation.gaze[1])/np.hypot(self.width,self.height)
         components=dict(salience=.55*np.clip(contrast+gradient,0,1)*novelty,
-                        peripheral_structure=.25*support*novelty,novelty=.18*novelty,
+                        peripheral_structure=.25*support*novelty,grouping=.2*grouping*novelty,novelty=.18*novelty,
                         perceptual_information_need=.12*perceptual_need,
                         reconstruction_information_need=.35*geometric_need,
-                        estimated_reconstruction_gain=.9*gain,
                         inhibition_of_return=-.65*self.ior,movement_cost=-.18*movement)
-        return dict(total=sum(components.values()),components=components,gain=gain,movement=movement)
+        return dict(total=sum(components.values()),components=components,gain=gain,movement=movement,diagnostics={'estimated_reconstruction_gain':.9*gain})
 
     def choose(self, field, rng):
         # Softmax is a declared spatial choice rule, not a recognition probability.
@@ -77,5 +83,7 @@ class PriorityField:
             return np.round(a, 4).tolist()
         return dict(width=self.w, height=self.h, total=values(field['total']),
                     components={k:values(v) for k,v in field['components'].items()},
+                    diagnostics={k:values(v) for k,v in field['diagnostics'].items()},
+                    total_definition='sum of signed components only; predicted gain is a separate diagnostic, not added again',
                     valid=self.valid.tolist(), coverage=values(1-np.exp(-self.exposure)),
                     coordinate_note='sample centers in image coordinates; numeric integration mesh; no region-center proposals')

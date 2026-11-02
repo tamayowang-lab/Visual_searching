@@ -1,6 +1,7 @@
 """Relative-only depth contract; aligned RGB-D can later implement this protocol."""
 from typing import Protocol
 from dataclasses import dataclass
+from copy import deepcopy
 from pathlib import Path
 import hashlib,json
 import numpy as np
@@ -11,6 +12,15 @@ class DepthFrame:
     valid: np.ndarray
     quality: np.ndarray
     metadata: dict
+
+    def validate(self,shape=None):
+        arrays=[np.asarray(self.inverse_depth),np.asarray(self.valid),np.asarray(self.quality)]
+        if arrays[0].ndim!=2 or any(a.shape!=arrays[0].shape for a in arrays):raise ValueError('Depth arrays must share HxW shape')
+        if shape is not None and arrays[0].shape!=shape:raise ValueError('Depth must align with gaze-dependent input')
+        if arrays[1].dtype!=bool:raise ValueError('Depth validity must be boolean')
+        if not np.isfinite(arrays[0]).all() or np.any((arrays[0]<0)|(arrays[0]>1)):raise ValueError('Stored inverse depth must be finite and normalized to [0,1]')
+        if not np.isfinite(arrays[2]).all() or np.any((arrays[2]<0)|(arrays[2]>1)):raise ValueError('Depth quality must be finite in [0,1]')
+        return self
 
     def reference(self):
         return dict(values=np.where(self.valid,self.inverse_depth,None).tolist(),valid=self.valid.tolist(),quality=self.quality.tolist(),metadata=self.metadata,visibility="Estimator reference only; unobserved pixels are not in world memory")
@@ -71,28 +81,52 @@ class CachedDepth:
         f=self.provider.predict(image);np.savez_compressed(p,depth=f.inverse_depth,valid=f.valid,quality=f.quality);meta.write_text(json.dumps(f.metadata,allow_nan=False), encoding='utf-8');return f
 
 
-def update_observed_depth(world,observation,frame: DepthFrame,camera):
-    """Integrate only central depth evidence, separately from recognition quality.
+def array_hash(array):
+    a=np.ascontiguousarray(array)
+    return hashlib.sha256(a.dtype.str.encode()+str(a.shape).encode()+a.tobytes()).hexdigest()
 
-    The existing adapters normalize each input independently. Without a common
-    scale identifier, new depth is a new hypothesis, not aligned 3D fusion.
-    """
+
+def record_depth(frame,input_sha256,step):
+    """Exact arrays plus an explicit independently normalized coordinate contract."""
+    frame.validate()
+    arrays={name:np.asarray(getattr(frame,name)).copy() for name in ['inverse_depth','valid','quality']}
+    hashes={name:array_hash(a) for name,a in arrays.items()}
+    frame_id=f'depth-{step:04d}-'+hashes['inverse_depth'][:12]
+    return dict(available=True,frame_id=frame_id,input_sha256=input_sha256,array_hashes=hashes,
+                metadata=deepcopy(frame.metadata),
+                coordinate_contract=dict(axes='x right, y down, z forward',depth='normalized inverse depth',
+                    z_mapping='1/(0.1+D); display/geometry proxy, not calibrated physical depth',
+                    normalization_scope='independent per observation',local_scale_id=frame_id,
+                    shared_scale_id=None,provider_scale_claim=frame.metadata.get('scale_id'),
+                    cross_fixation_alignment='unavailable; do not fuse',units='nonmetric relative proxy units'),
+                arrays={name:dict(dtype=a.dtype.str,values=a.tolist()) for name,a in arrays.items()})
+
+
+def update_observed_depth(world,observation,frame: DepthFrame,camera,record=None):
+    """Keep every central surface estimate as a separate scale hypothesis."""
     from active_observer.world.model import ReconstructionEstimate
-    h,w=observation.rgb.shape[:2]
-    if frame.inverse_depth.shape!=(h,w):raise ValueError('Unaligned depth frame')
+    h,w=observation.rgb.shape[:2];frame.validate((h,w))
+    record=record or record_depth(frame,hashlib.sha256(observation.rgb.tobytes()).hexdigest(),len(world.ensembles)-1)
     for m in world.objects:
         if m.last_seen!=world.time:continue
         x,y,x2,y2=m.bbox;mask=np.zeros((h,w),bool)
-        mask[max(0,int(y)):min(h,int(np.ceil(y2))),max(0,int(x)):min(w,int(np.ceil(x2)))]=True
+        mask[max(0,int(np.ceil(y))):min(h,int(np.ceil(y2))),max(0,int(np.ceil(x))):min(w,int(np.ceil(x2)))]=True
         mask &= observation.central & frame.valid
         if not mask.any():continue
         values=frame.inverse_depth[mask];median=float(np.median(values));spread=float(np.quantile(values,.75)-np.quantile(values,.25))
         quality=float(np.median(frame.quality[mask]));uncertainty=float(np.clip(1-quality+spread,0,1))
-        distance=1/(.1+median);center=camera.bearing(*m.centroid)*distance
-        width=abs((x2-x)*center[2]/camera.fx);height=abs((y2-y)*center[2]/camera.fy)
-        history=m.reconstruction.observation_history+[dict(time_ms=world.time,relative_depth=distance,
-                        scale_id=frame.metadata.get('scale_id'),depth_uncertainty=uncertainty)]
-        m.reconstruction=ReconstructionEstimate(relative_depth=distance,center=center.tolist(),
-                    dimensions=[float(width),float(height),None],depth_uncertainty=uncertainty,
-                    dimension_uncertainty=[max(uncertainty,m.localization_uncertainty)]*2+[1.],
-                    scale_id=frame.metadata.get('scale_id'),observation_history=history)
+        z=1/(.1+median);center=camera.unproject_z(*m.centroid,z)
+        width=(x2-x)*z/camera.fx;height=(y2-y)*z/camera.fy
+        corners=[camera.unproject_z(px,py,z).tolist() for px,py in [(x,y),(x2,y),(x2,y2),(x,y2)]]
+        hypothesis=dict(time_ms=world.time,frame_id=record['frame_id'],scale_id=None,
+                        input_sha256=record['input_sha256'],depth_array_sha256=record['array_hashes']['inverse_depth'],
+                        relative_depth=z,center=center.tolist(),dimensions=[float(width),float(height),None],
+                        front_corners=corners,orientation=None,bbox=list(m.bbox),extent_is_partial=m.extent_is_partial,
+                        depth_uncertainty=uncertainty,dimension_uncertainty=[max(uncertainty,m.localization_uncertainty)]*2+[1.],
+                        sample_count=int(mask.sum()),sample_median_inverse_depth=median,mean_quality=quality,
+                        alignment='unaligned independent observation; rectangle is image-plane support, not object orientation')
+        history=m.reconstruction.observation_history+[hypothesis]
+        m.reconstruction=ReconstructionEstimate(relative_depth=z,center=center.tolist(),
+                    dimensions=hypothesis['dimensions'],depth_uncertainty=uncertainty,
+                    dimension_uncertainty=hypothesis['dimension_uncertainty'],
+                    frame_id=record['frame_id'],observation_history=history)

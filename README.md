@@ -42,9 +42,9 @@ active-observer examples/photos/porto-square.jpg --config configs/with-depth.yam
 
 This enables per-fixation depth inference, not cross-fixation scale alignment
 or complete physical object recovery. Missing checkpoints fail explicitly.
-No pretrained downloads happen inside the runner. The depth-enabled path was
-checked with instrumented test sensors; this cleanup did not download or
-validate the MiDaS weights.
+No pretrained downloads happen inside the runner. The depth-enabled path is checked with instrumented sensors and a short real
+run using the verified pinned MiDaS weights. This verifies execution contracts,
+not depth accuracy or complete reconstruction.
 
 Each run writes `run.json` and an exact-input diagnostic `inspector.html`.
 Open the inspector locally. `--inspect-seconds 15` writes a causal prefix to
@@ -85,3 +85,56 @@ it supplies no target labels or object boxes. Regenerate them with
 Source: [Salient360 Toolbox](https://github.com/David-Ef/salient360Toolbox).
 The repository has an MIT license; a separate stimulus-specific license was
 not documented. No human evaluation data was downloaded for this branch.
+
+## Recorded 3D visualization laboratory (schema 2)
+
+The inspector contains orbit/zoom/select Three.js geometry, linked 2D selection,
+exact stored depth/validity/quality maps, attention contributions, object and
+localized ensemble records, stopping inputs, and separate prediction/proxy plots.
+Unknown thickness and orientation remain unknown. Independently normalized depth
+observations have separate frame IDs and are never falsely fused.
+
+Generate the small real and labeled mock recordings:
+
+    python scripts/setup_perception.py --download
+    python scripts/build_lab_examples.py --out outputs/laboratory
+    python -m http.server 8000 --directory outputs/laboratory
+
+Open http://localhost:8000/real-depth/inspector.html on the serving machine.
+The real run uses the existing verified SSDLite and MiDaS checkpoints. It is a
+short diagnostic ending at its administrative safeguard, not validation of
+reconstruction completion. --mock-only generates fixtures without pretrained
+weights. Every mock page is prominently labeled and makes no pretrained claim.
+
+Each inspector is standalone: Three.js 0.146.0, OrbitControls, the MIT license,
+sensory frames and visualization arrays are embedded, with no CDN or browser
+inference. Open inspector.html in a modern browser supporting DecompressionStream.
+Managed browser policy may prohibit file URLs; local HTTP is the tested fallback.
+Offline completeness was checked by zero external requests during browser QA.
+
+Schema-2 run.json references lossless depth/fixation-NNNN.npz assets. They retain
+exact inverse depth, validity, quality, input hash, frame ID, metadata and scale
+contract. Array dtype/shape/content hashes are verified on re-export. Keep the
+JSON and NPZ folder together. Standalone HTML embeds its own array copies.
+Re-export does not run model inference.
+
+Reopen a saved recording:
+
+    import json
+    from active_observer.io.image import load_image
+    from active_observer.viz.replay import write_replay
+    result = json.load(open("outputs/laboratory/real-depth/run.json"))
+    write_replay(load_image("examples/photos/porto-square.jpg"), result,
+                 "outputs/reopened.html", asset_root="outputs/laboratory/real-depth")
+
+Use Next for a committed observation; orbit or select a rectangle; choose All
+committed frames, separated to compare scales; inspect depth channels and
+priority layers; then scrub inside a fixation to see future evidence withheld.
+Memory comparison is explicitly before/after the last committed fixation.
+
+    python -m pytest -q
+    node tests/browser_lab.cjs
+
+The optional browser test requires installed Playwright/Chromium and a Python
+replay-oracle JSON file; see docs/laboratory.md. Core tests require no network
+downloads or pretrained weights.

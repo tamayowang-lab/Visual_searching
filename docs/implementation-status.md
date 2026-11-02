@@ -3,10 +3,10 @@
 | Component | Present foundation | Missing or limited |
 | --- | --- | --- |
 | Sensory acquisition | Central RGB plus bandwidth-limited peripheral input, exact input hashes | Calibrated visual angle and a graded biological eccentricity profile |
-| Peripheral grouping/ensembles | Coarse RGB moments, edge density, connected structural-group count, separate summary history | Object count and size distributions; grouping is a proxy, not object enumeration |
+| Peripheral grouping/ensembles | Global/local coarse moments, edge density, structural-group counts and sensory reliability; separate histories | Object count and size distributions; grouping is a proxy, not object enumeration |
 | Foveal objects | Existing centrally gated detector adapters, association, evidence history | Recognition calibration, reliable boundary completion |
-| Gaze-dependent depth | Configured provider invoked on each current sensory image; input hash logged; central evidence integrated | Actual pretrained-depth smoke test was not run during cleanup |
-| Object geometry | Separate uncertain relative center, projected width and height, partial cuboid hypothesis | Hidden thickness, orientation, physical scale, complete extent |
+| Gaze-dependent depth | Configured provider invoked on each current sensory image; input hash logged; central evidence integrated | Real pinned MiDaS + SSDLite diagnostic recording generated; no accuracy validation |
+| Object geometry | Explicit camera-Z proxy, half-open bbox projection, full separate observation histories and open front rectangles | Hidden thickness, orientation, physical scale, complete extent |
 | Reconstruction uncertainty | Separate depth and per-dimension uncertainty; recognition cannot reduce these | Calibrated geometry uncertainty and principled fusion |
 | Hierarchical memory | Distinct object registry and ensemble-summary history | Learned ensemble-to-member relationships and robust long-term fusion |
 | Attention | Dense salience, novelty, peripheral structure, perceptual need, geometry need, IOR, movement; seeded softmax | Proper expected reconstruction-improvement estimator, ensemble size/count-driven policy, action-level explore/inspect/revisit model |
@@ -52,3 +52,23 @@ completion. Every result carries `reconstruction_validated: false`.
 
 No full statistical validation pipeline, human dataset download, timing-model
 comparison, or claim of hypothesis confirmation is part of this cleanup.
+
+## Repair-first laboratory update
+
+Phase A passed its 35-test gate before Three.js implementation. The final suite
+has 37 focused tests. Camera depth now means Z, not ray range; per-fixation NPZ
+assets retain exact arrays and provenance; all geometry observations retain
+their independent frame IDs, corners and uncertainty. No alignment is claimed.
+Derived gain is no longer added again on top of its constituent priority cues.
+
+The lab supports linked 2D/3D selection, independent frame groups, camera frusta,
+orbit/zoom, stored depth/quality/validity maps, localized ensemble inspection,
+all priority layers, fixed or labeled per-frame scales, causal time/commit
+controls, before/after memory comparison, and separate prediction/proxy plots.
+Actual 3D improvement stays null. Disabled depth and empty memory stay explicit.
+
+Browser QA compared 39 Python/JavaScript snapshots across seven cases and checked
+actual 3D picking/rendered corners, map values, timing, comparisons, downloads,
+mobile layout and zero external requests or JS errors. The real diagnostic used
+the existing pinned providers on Porto RGB. Mocks are not model evidence.
+See laboratory.md and repair-audit.md for exact limits and reproduction.

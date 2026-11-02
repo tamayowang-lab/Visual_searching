@@ -5,6 +5,7 @@ from .config import Config
 from .io.image import load_image
 from .simulation.runner import run
 from .simulation.replay import inspect_at
+from .simulation.recording import save_run
 from .viz.replay import write_replay
 
 
@@ -18,7 +19,7 @@ def main():
     if args.seed is not None:cfg.seed=args.seed
     image=load_image(args.image);result=run(image,cfg,image_id=Path(args.image).stem)
     out=Path(args.out);out.mkdir(parents=True,exist_ok=True)
-    (out/'run.json').write_text(json.dumps(result,allow_nan=False,indent=2),encoding='utf-8')
+    save_run(result,out/'run.json')
     write_replay(image,result,out/'inspector.html')
     if args.inspect_seconds is not None:
         (out/'inspection.json').write_text(json.dumps(inspect_at(result,args.inspect_seconds*1000),allow_nan=False,indent=2),encoding='utf-8')

@@ -11,6 +11,9 @@ class ReconstructionEstimate:
     depth_uncertainty: float = 1.
     dimension_uncertainty: list = field(default_factory=lambda:[1.,1.,1.])
     scale_id: str | None = None
+    frame_id: str | None = None
+    orientation: list | None = None
+    aggregation: str = 'latest observation only; history contains independent, unaligned hypotheses'
     coordinate_frame: str = 'image-anchored relative units; not metric'
     geometry_kind: str = 'partial cuboid hypothesis; unseen thickness unknown'
     observation_history: list = field(default_factory=list)

@@ -26,11 +26,21 @@ class Camera:
         if not np.isfinite([self.fx,self.fy]).all() or min(self.fx,self.fy) <= 0: raise ValueError("Invalid intrinsics")
         self.cx = (self.width-1)/2 if self.cx is None else self.cx
         self.cy = (self.height-1)/2 if self.cy is None else self.cy
+        if not np.isfinite([self.cx,self.cy]).all():raise ValueError("Invalid principal point")
 
     def bearing(self, x: float, y: float) -> np.ndarray:
         if not (0 <= x < self.width and 0 <= y < self.height): raise ValueError("Off-screen fixation")
         v = np.array([(x-self.cx)/self.fx, (y-self.cy)/self.fy, 1.])
         return v/np.linalg.norm(v)
 
+    def unproject_z(self,x,y,z):
+        """Pixel-center/continuous bbox-edge coordinates, camera Z (not ray range)."""
+        if not np.isfinite([x,y,z]).all() or z<=0:raise ValueError('Finite coordinates and positive camera Z required')
+        return np.array([(x-self.cx)*z/self.fx,(y-self.cy)*z/self.fy,z])
+
     def metadata(self):
-        return dict(fx=self.fx,fy=self.fy,cx=self.cx,cy=self.cy,assumption=self.assumption,xyz_units="pseudo-3D relative units, never meters")
+        return dict(fx=self.fx,fy=self.fy,cx=self.cx,cy=self.cy,width=self.width,height=self.height,
+                    assumption=self.assumption,axes='x right, y down, z forward',
+                    bbox_convention='continuous xyxy, half-open upper edges; x2 may equal width',
+                    depth_convention='Z proxy = 1/(0.1 + normalized inverse depth), not ray distance',
+                    xyz_units='independent per-observation relative units, never meters')
