@@ -5,15 +5,14 @@ import math
 class ExperimentOptions:
     enabled: bool=False
     behavior_mode: str='explore'
-    observation_condition: str='fixed_time'
-    fixed_time_ms: float=5000.
+    observation_condition: str='until_finished'
+    fixed_time_ms: float=15000.
     administrative_timeout_ms: float=60000.
     administrative_max_steps: int | None=None
     def validate(self):
         if self.behavior_mode not in {'explore','search'}:raise ValueError('Phase 5 has exactly two behavioral modes: explore and search')
         if self.observation_condition not in {'fixed_time','until_finished'}:raise ValueError('Unknown observation condition')
         if not all(math.isfinite(x) and x>0 for x in [self.fixed_time_ms,self.administrative_timeout_ms]):raise ValueError('Positive finite observation and administrative times required')
-        if self.fixed_time_ms>self.administrative_timeout_ms:raise ValueError('Requested view exceeds administrative timeout; increase the safeguard explicitly')
         if self.administrative_max_steps is not None and (not isinstance(self.administrative_max_steps,int) or self.administrative_max_steps<1):raise ValueError('Optional step limit is an administrative safeguard only')
         return self
 

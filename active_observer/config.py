@@ -2,9 +2,12 @@
 from dataclasses import dataclass, field, asdict
 from pathlib import Path
 import yaml
+import math
 
 @dataclass
 class Config:
+    execution_path: str = "autonomous"
+    spatial_temperature: float = .08
     seed: int = 42
     max_fixations: int = 16
     time_budget_ms: float = 6000
@@ -32,8 +35,8 @@ class Config:
     evidence_time_ms: float = 250.
     stay_enabled: bool = True
     max_consecutive_stays: int = 2
-    perception: dict = field(default_factory=lambda: dict(objects={'provider':'classical'},depth={'provider':'none'}))
-    timing_model: str = 'phase2'
+    perception: dict = field(default_factory=lambda: dict(objects={'provider':'auto'},depth={'provider':'none'}))
+    timing_model: str = 'heuristic_lognormal'
     timing: dict = field(default_factory=dict)
     policy: str = "full"
     weights: dict = field(default_factory=lambda: dict(salience=.8, task=1.3, context=.35, novelty=.45, info=.65, move=.5, history=.6))
@@ -43,8 +46,10 @@ class Config:
     context_priors: dict = field(default_factory=dict)
 
     def validate(self):
-        if self.max_fixations < 1 or self.time_budget_ms <= 0: raise ValueError("Positive fixation and time budgets required")
-        if self.grid_columns < 1 or self.grid_rows < 1 or self.temperature <= 0: raise ValueError("Invalid grid/temperature")
+        if not math.isfinite(self.spatial_temperature) or self.spatial_temperature<=0:raise ValueError("Positive finite spatial temperature required")
+        if self.execution_path not in {"autonomous", "archived"}:raise ValueError("Unknown execution path")
+        if self.execution_path == "archived" and (self.max_fixations < 1 or self.time_budget_ms <= 0): raise ValueError("Positive fixation and time budgets required")
+        if self.execution_path == "archived" and (self.grid_columns < 1 or self.grid_rows < 1 or self.temperature <= 0): raise ValueError("Invalid grid/temperature")
         if self.memory_decay_ms <= 0 or not 0 < self.central_fraction <= .5 or self.central_degrees <= 0: raise ValueError("Invalid memory/foveation settings")
         if self.pixels_per_degree is not None and self.pixels_per_degree <= 0: raise ValueError("pixels_per_degree must be positive")
         if not 0 < self.min_duration_ms <= self.max_duration_ms: raise ValueError("Invalid duration bounds")
@@ -56,10 +61,10 @@ class Config:
         TimingParameters(**self.timing).validate()
         from .experiment.options import ExperimentOptions,StoppingOptions
         experiment=ExperimentOptions(**self.experiment).validate();StoppingOptions(**self.stopping).validate()
-        if experiment.enabled and self.timing_model=='phase2':raise ValueError('Phase 5 uses one of the three preserved Phase 3 timing models')
+        if self.execution_path=='archived' and experiment.enabled and self.timing_model=='phase2':raise ValueError('Phase 5 uses one of the three preserved Phase 3 timing models')
         from .active.options import ActiveOptions
         options=ActiveOptions(**self.active).validate()
-        if options.enabled and self.timing_model=='phase2':raise ValueError('Phase 4B requires one of the three Phase 3 timing models; archived Phase 2 stays available with active disabled')
+        if self.execution_path=='archived' and options.enabled and self.timing_model=='phase2':raise ValueError('Phase 4B requires one of the three Phase 3 timing models; archived Phase 2 stays available with active disabled')
         if set(self.weights) != {"salience","task","context","novelty","info","move","history"}: raise ValueError("Seven explicit utility weights required")
         if any(not 0 <= float(v) < 100 for v in self.weights.values()): raise ValueError("Weights must be finite and nonnegative")
         return self

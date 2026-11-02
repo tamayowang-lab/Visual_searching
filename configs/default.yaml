@@ -1,5 +1,23 @@
+# Normal simulations use this one autonomous path. Other dataclass defaults
+# are retained for archived reproduction and do not control this observer.
+execution_path: autonomous
 seed: 42
-max_fixations: 16
-time_budget_ms: 6000
-# Null means explicitly uncalibrated pixel-based foveation.
-pixels_per_degree: null
+spatial_temperature: 0.08
+timing_model: heuristic_lognormal
+depth_enabled: false
+experiment:
+  behavior_mode: explore
+  observation_condition: until_finished
+  fixed_time_ms: 15000
+  administrative_timeout_ms: 60000
+stopping:
+  allow_absence: false
+perception:
+  cache_directory: .cache/observer
+  objects:
+    provider: torchvision_ssdlite
+    checkpoint: .cache/models/ssdlite320_mobilenet_v3_large_coco-a79551df.pth
+    threshold: 0.3
+    context_scale: 3.0
+  depth:
+    provider: none

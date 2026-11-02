@@ -24,3 +24,6 @@ reports/phase4b/*private*
 reports/phase4b/predictions/
 reports/phase4b/images/
 reports/phase4b/data/
+
+# Local repair scratch and browser QA artifacts.
+/work/

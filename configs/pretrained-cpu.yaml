@@ -1,3 +1,4 @@
+execution_path: archived
 max_fixations: 20
 perception:
   cache_directory: .cache/observer
@@ -12,3 +13,5 @@ perception:
     provider: torchvision_ssdlite
     threshold: 0.3
 time_budget_ms: 7500
+
+timing_model: phase2

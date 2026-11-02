@@ -1,3 +1,6 @@
+execution_path: archived
 seed: 42
 max_fixations: 8
 time_budget_ms: 3000
+
+timing_model: phase2

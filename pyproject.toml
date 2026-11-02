@@ -19,4 +19,4 @@ include = ["active_observer*"]
 testpaths = ["tests"]
 
 [tool.setuptools.package-data]
-"active_observer.viz" = ["viewer.html", "lab/*"]
+"active_observer.viz" = ["viewer.html", "lab/*", "autonomous.html"]

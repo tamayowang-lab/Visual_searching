@@ -39,7 +39,7 @@ class TorchvisionFoveal:
         self.torch=torch;torch.set_num_threads(threads);self.version=torchvision.__version__;self.threshold=threshold;self.context_scale=context_scale
         self.model=ssdlite320_mobilenet_v3_large(weights=None,weights_backbone=None).eval().to('cpu')
         self.model.load_state_dict(torch.load(checkpoint,map_location='cpu',weights_only=True));self.labels=SSDLite320_MobileNet_V3_Large_Weights.DEFAULT.meta['categories'];self.calls=0;self.seconds=0.
-    def metadata(self):return dict(provider='torchvision_ssdlite_foveal',checkpoint_sha256=self.sha,architecture='ssdlite320_mobilenet_v3_large',torchvision=self.version,preprocessing='RGB /255; torchvision detection resize/normalization',semantic_gate='center inside central circle; box clipped to central square',context_scale=self.context_scale,threshold=self.threshold,device='cpu',full_image_semantics=False)
+    def metadata(self):return dict(provider='torchvision_ssdlite_foveal',checkpoint_sha256=self.sha,architecture='ssdlite320_mobilenet_v3_large',torchvision=self.version,preprocessing='RGB /255; torchvision detection resize/normalization',semantic_gate='center inside central circle; box clipped to central square',context_scale=self.context_scale,threshold=self.threshold,device='cpu',full_image_semantics=False,peripheral_proposals='separate bounded peripheral cues; no pseudo-object memory')
     def detect(self,observation):
         torch=self.torch;rgb=observation.rgb;h,w=rgb.shape[:2];x,y=observation.gaze;rad=observation.radius_px;context=rad*self.context_scale
         x1,y1=max(0,int(x-context)),max(0,int(y-context));x2,y2=min(w,int(np.ceil(x+context))),min(h,int(np.ceil(y+context)))
@@ -56,8 +56,7 @@ class TorchvisionFoveal:
             if any(iou(local,d.bbox)>.5 for d in semantic):continue
             name=self.labels[label];partial=any(abs(a-b)>.5 for a,b in zip(local,full))
             semantic.append(Detection(local,{name:float(prob),'unknown':1-float(prob)},descriptor(rgb,local),float(prob),.6,partial=partial,source='semantic'))
-        coarse=[d for d in ClassicalObjects().detect(observation) if not any(iou(d.bbox,s.bbox)>.2 for s in semantic)]
-        return semantic+coarse
+        return semantic
 
 class MidasSmall:
     """Pinned MiDaS 2.1 small decoder/backbone. Its map remains a private sensor output."""

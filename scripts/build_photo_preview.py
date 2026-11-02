@@ -19,7 +19,7 @@ def build(image_path: str,out_path: str,config_path: str | None=None,timing_fit:
     out=Path(out_path);(out/'data').mkdir(parents=True,exist_ok=True);(out/'frames').mkdir(exist_ok=True)
     image=load_image(image_path);scale=min(1.,640/image.shape[1]);image=cv2.resize(image,(round(image.shape[1]*scale),round(image.shape[0]*scale)),interpolation=cv2.INTER_AREA)
     h,w=image.shape[:2];cv2.imwrite(str(out/'scene.png'),cv2.cvtColor(image,cv2.COLOR_RGB2BGR))
-    cfg=Config.load(config_path) if config_path else Config(seed=42,max_fixations=20,time_budget_ms=7500)
+    cfg=Config.load(config_path) if config_path else Config(execution_path='archived',timing_model='phase2',seed=42,max_fixations=20,time_budget_ms=7500)
     from active_observer.perception.factory import ProviderFactory
     factory=ProviderFactory();depth_file=None;runs=[];radius=w*cfg.central_fraction
     fit=json.loads(Path(timing_fit).read_text(encoding='utf-8')) if timing_fit else None

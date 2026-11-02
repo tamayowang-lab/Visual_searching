@@ -11,7 +11,7 @@ def image():
     a=np.full((60,100,3),70,np.uint8);a[20:40,35:65]=[230,20,20];return a
 
 def cfg(**kwargs):
-    return Config(timing_model='heuristic_lognormal',active={'enabled':True,'variant':'D','selection':'balanced','valid_stimulus':True},experiment={'enabled':True,'behavior_mode':'explore','observation_condition':'until_finished','fixed_time_ms':200.,'administrative_timeout_ms':1500.},**kwargs)
+    return Config(execution_path='archived',timing_model='heuristic_lognormal',active={'enabled':True,'variant':'D','selection':'balanced','valid_stimulus':True},experiment={'enabled':True,'behavior_mode':'explore','observation_condition':'until_finished','fixed_time_ms':200.,'administrative_timeout_ms':1500.},**kwargs)
 
 def test_conditions_share_one_trajectory_and_ignore_legacy_fixation_budget():
     a=cfg(max_fixations=1);b=replace(a,max_fixations=500,experiment={**a.experiment,'observation_condition':'fixed_time','fixed_time_ms':300.});x=run(image(),a);y=run(image(),b);assert len(x['fixations'])>1;assert [(f['x_px'],f['y_px'],f['duration_ms']) for f in x['fixations']]==[(f['x_px'],f['y_px'],f['duration_ms']) for f in y['fixations']];assert x['termination']==y['termination'];json.dumps(x,allow_nan=False)

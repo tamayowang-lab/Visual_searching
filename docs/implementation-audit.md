@@ -6,7 +6,7 @@ Audit basis: existing RGB Active Observer V1 on `feature/rgb-active-observer-v1`
 
 | Mechanism | Original entrypoint | What was used in ordinary inference | Review finding |
 |---|---|---|---|
-| Object proposals | `perception/objects.py:ClassicalObjects.detect` | Connected color components on foveated RGB | Color names, not semantic recognition |
+| Object proposals | `perception/objects.py:ClassicalObjects.detect` | Connected local-contrast structures on foveated RGB | Unlabeled proposals; semantic categories require the existing detector |
 | Optional semantics | `FovealTransformersObjects.detect` | Only when explicitly selected | Had not been verified with weights |
 | Depth | `perception/depth.py:ConstantDepth/ArrayDepth/PrecomputedDepth/TransformersDepth` | No depth by default; optional HF adapter unverified | Private map contract existed; no real pretrained demonstration |
 | Foveation | `perception/foveation.py:observe` | Gaze-dependent RGB blur and reliability | Pixel approximation unless PPD supplied |

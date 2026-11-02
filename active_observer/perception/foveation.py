@@ -14,13 +14,20 @@ class Observation:
     geometry: str
 
 
-def observe(image: np.ndarray, gaze: tuple[float,float], config: Config) -> Observation:
+def observe(image: np.ndarray, gaze: tuple[float,float], config: Config, *, strict_periphery=False) -> Observation:
     h,w=image.shape[:2];x,y=gaze
     if not (0 <= x < w and 0 <= y < h): raise ValueError("Off-screen gaze")
     radius=config.central_degrees*config.pixels_per_degree if config.pixels_per_degree else w*config.central_fraction
     yy,xx=np.mgrid[:h,:w];distance=np.hypot(xx-x,yy-y)
     reliability=np.clip(np.exp(-distance/(3*radius)),.05,1.)
     central=distance <= radius
+    if strict_periphery:
+        # Spatial bandwidth is bounded before peripheral evidence reaches a provider.
+        coarse_width = min(32, w)
+        coarse = cv2.resize(image, (coarse_width, max(1, round(h*coarse_width/w))), interpolation=cv2.INTER_AREA)
+        peripheral = cv2.resize(coarse, (w, h), interpolation=cv2.INTER_LINEAR)
+        rgb = np.where(central[..., None], image, peripheral).astype(np.uint8)
+        return Observation(rgb,reliability,central,gaze,radius,"degrees via supplied pixels-per-degree" if config.pixels_per_degree else "pixel-based approximation; no visual-angle calibration")
     mild=cv2.GaussianBlur(image,(0,0),max(1,w/100));strong=cv2.GaussianBlur(image,(0,0),max(2,w/30))
     alpha=np.exp(-.5*(distance/radius)**2)[...,None]
     outer=np.clip(distance/(5*radius),0,1)[...,None]

@@ -18,7 +18,7 @@ def test_inspector_roundtrips_under_cp1252_default(tmp_path,monkeypatch):
     with pytest.raises(UnicodeDecodeError):
         Path(__file__).resolve().parents[1].joinpath('active_observer/viz/viewer.html').read_text()
     image=np.zeros((20,30,3),np.uint8)
-    result=run(image,Config(max_fixations=1),image_id='café-视觉',target='椅子')
+    result=run(image,Config(execution_path='archived',timing_model='phase2',max_fixations=1),image_id='café-视觉',target='椅子')
     path=tmp_path/'inspection.html';write_html(image,result,path)
     content=path.read_bytes().decode('utf-8')
     assert '← Previous' in content

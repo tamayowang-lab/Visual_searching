@@ -8,6 +8,9 @@ class ProviderFactory:
     def __init__(self):self.objects={};self.depths={}
     def get(self,config,record=None):
         spec=config.perception;cache=Path(spec.get('cache_directory','.cache/observer'));object_spec=spec.get('objects',{'provider':'classical'});depth_spec=spec.get('depth',{'provider':'none'})
+        if object_spec.get('provider')=='auto':
+            object_spec=({'provider':'torchvision_ssdlite','checkpoint':'.cache/models/ssdlite320_mobilenet_v3_large_coco-a79551df.pth','threshold':.3,'context_scale':3.}
+                         if config.execution_path=='autonomous' else {'provider':'classical'})
         key=json.dumps(object_spec,sort_keys=True);name=object_spec.get('provider','classical')
         if not config.semantic_enabled:name='classical';key='classical'
         if key not in self.objects:

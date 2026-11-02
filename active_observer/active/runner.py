@@ -9,7 +9,7 @@ from .perception import ActivePerception,bounded_peripheral_sensor,update_worksp
 import hashlib
 import numpy as np
 from active_observer.io.image import Camera
-from active_observer.world.model import World
+from active_observer.world.model import World,decay_without_observation
 from active_observer.perception.foveation import observe
 from active_observer.perception.objects import ClassicalObjects
 from active_observer.perception.depth import update_observed_depth
@@ -17,13 +17,6 @@ from active_observer.perception.factory import ProviderFactory
 from active_observer.attention.policy import score,choose
 from active_observer.attention.processing import processing_context
 from active_observer.attention.timing import TimingParameters,simulate_timing,saccade_duration_ms
-
-
-def decay_without_observation(world,elapsed_ms):
-    world.time+=elapsed_ms
-    for m in world.objects:
-        m.confidence*=np.exp(-elapsed_ms/world.config.memory_decay_ms);m.ior*=np.exp(-elapsed_ms/1200);m.visibility=0.;m.state='remembered' if m.confidence>.2 else 'uncertain'
-        m.identity_uncertainty=min(1,m.identity_uncertainty+.02*elapsed_ms/world.config.memory_decay_ms);m.position_uncertainty=min(1,m.position_uncertainty+.04*elapsed_ms/world.config.memory_decay_ms)
 
 
 def run_active(image,cfg,*,image_id='image',target='',start=None,object_provider=None,depth_provider=None,camera=None,provider_factory=None,include_depth_reference=True,valid_mask=None,stimulus_bounds=None):

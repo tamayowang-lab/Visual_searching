@@ -25,21 +25,28 @@ def descriptor(rgb, box):
     return (crop.mean(axis=(0,1))/255).tolist() if crop.size else [0.,0.,0.]
 
 class ClassicalObjects:
-    """Color components from the foveated image; names are colors, not semantics."""
+    """Unlabeled visual structures; no color categories or semantic claims."""
+    def metadata(self):
+        return dict(provider='unlabeled visual structure', semantic_input=False,
+                    evidence='connected local contrast in actual foveated RGB')
     def detect(self, observation):
-        rgb=observation.rgb;h,w=rgb.shape[:2];out=[]
-        # Independent color channels give simple deterministic proto-objects.
-        for i,name in enumerate(["red-region","green-region","blue-region"]):
-            other=np.max(np.delete(rgb,i,axis=2),axis=2).astype(float)
-            mask=((rgb[:,:,i].astype(float)-other>35)&(rgb[:,:,i]>100)).astype(np.uint8)
-            n,labels,stats,centers=cv2.connectedComponentsWithStats(mask)
-            for k in range(1,n):
-                x,y,bw,bh,area=stats[k]
-                if area < max(12,h*w*.002): continue
-                cx,cy=centers[k];reliability=float(observation.reliability[min(h-1,int(cy)),min(w-1,int(cx))])
-                conf=.85*reliability;box=[float(x),float(y),float(x+bw),float(y+bh)]
-                out.append(Detection(box,{name:conf,"unknown":1-conf},descriptor(rgb,box),conf,float(min(1,area/(h*w*.08)))))
+        rgb=observation.rgb;h,w=rgb.shape[:2]
+        gray=cv2.cvtColor(rgb,cv2.COLOR_RGB2GRAY)
+        local=cv2.GaussianBlur(gray,(0,0),max(1,w/40))
+        contrast=cv2.absdiff(gray,local)
+        mask=(contrast>max(8,float(np.quantile(contrast,.8)))).astype(np.uint8)
+        mask=cv2.morphologyEx(mask,cv2.MORPH_CLOSE,np.ones((3,3),np.uint8))
+        n,labels,stats,centers=cv2.connectedComponentsWithStats(mask)
+        out=[]
+        for k in range(1,n):
+            x,y,bw,bh,area=stats[k]
+            if area<max(12,h*w*.0015):continue
+            cx,cy=centers[k];reliability=float(observation.reliability[min(h-1,int(cy)),min(w-1,int(cx))])
+            box=[float(x),float(y),float(x+bw),float(y+bh)]
+            out.append(Detection(box,{'unrecognized-structure':.1,'unknown':.9},descriptor(rgb,box),
+                                 .6*reliability,float(min(1,area/(h*w*.05))),source='proto'))
         return sorted(out,key=lambda d:-d.salience)[:32]
+
 
 class ManualObjects:
     """Private fixture/proposal bank. Remote boxes and labels never leave adapter."""
@@ -59,7 +66,7 @@ class ManualObjects:
 class FovealTransformersObjects:
     """Optional CPU detector: only a foveal crop receives semantic inference.
 
-    Peripheral proto-objects are classical color components. Downloads require
+    Peripheral proto-objects are unlabeled visual structures. Downloads require
     explicit opt-in; model/checkpoint and revision are recorded in run metadata.
     """
     def __init__(self,model_id: str,*,revision: str='main',allow_download: bool=False,threshold: float=.4):
@@ -79,14 +86,14 @@ class FovealTransformersObjects:
         with torch.inference_mode():
             output=self.model(**self.processor(images=Image.fromarray(crop),return_tensors='pt'))
             found=self.processor.post_process_object_detection(output,target_sizes=torch.tensor([crop.shape[:2]]),threshold=self.threshold)[0]
-        proposals=ClassicalObjects().detect(observation)
+        proposals=[]
         for box,label,confidence in zip(found['boxes'].tolist(),found['labels'].tolist(),found['scores'].tolist()):
             b=[float(np.clip(box[0]+x1,x1,x2)),float(np.clip(box[1]+y1,y1,y2)),float(np.clip(box[2]+x1,x1,x2)),float(np.clip(box[3]+y1,y1,y2))]
             if b[2]<=b[0] or b[3]<=b[1] or np.hypot((b[0]+b[2])/2-x,(b[1]+b[3])/2-y)>rad:continue
-            # Suppress overlapping color proto-objects rather than allocating a second ID.
+            # Suppress overlapping unlabeled proto-objects rather than allocating a second ID.
             def overlap(d):
                 a=d.bbox;inter=max(0,min(a[2],b[2])-max(a[0],b[0]))*max(0,min(a[3],b[3])-max(a[1],b[1]));union=(a[2]-a[0])*(a[3]-a[1])+(b[2]-b[0])*(b[3]-b[1])-inter
                 return inter/max(union,1e-9)
             proposals=[d for d in proposals if overlap(d)<.35]
-            name=self.model.config.id2label[label];proposals.append(Detection(b,{name:float(confidence),'unknown':1-float(confidence)},descriptor(observation.rgb,b),float(confidence),.6))
+            name=self.model.config.id2label[label];proposals.append(Detection(b,{name:float(confidence),'unknown':1-float(confidence)},descriptor(observation.rgb,b),float(confidence),.6,source='semantic'))
         return proposals

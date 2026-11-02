@@ -13,7 +13,7 @@ from .io.human import convert_coco
 
 def main():
     p=argparse.ArgumentParser(prog='active-observer');sub=p.add_subparsers(dest='command',required=True)
-    one=sub.add_parser('run-one');one.add_argument('image');one.add_argument('--config');one.add_argument('--out',default='outputs/run');one.add_argument('--target',default='');one.add_argument('--seed',type=int);one.add_argument('--start',nargs=2,type=float);one.add_argument('--depth',help='constant or an aligned .npy/.npz relative-depth file');one.add_argument('--depth-kind',choices=['inverse_depth','relative_range'],default='inverse_depth');one.add_argument('--depth-checkpoint');one.add_argument('--detector-checkpoint');one.add_argument('--revision',default='main');one.add_argument('--allow-model-download',action='store_true');one.add_argument('--stimulus-bounds',nargs=4,type=float,metavar=('X1','Y1','X2','Y2'));one.add_argument('--valid-mask',help='Explicit aligned binary mask (.npy/.npz or image); never inferred from input darkness')
+    one=sub.add_parser('run-one');one.add_argument('image');one.add_argument('--mode',choices=['explore','search'],default=None);one.add_argument('--condition',choices=['fixed_time','until_finished'],default=None);one.add_argument('--duration',type=float,help='Fixed-time inspection duration in seconds');one.add_argument('--administrative-timeout',type=float,help='Safety timeout in seconds');one.add_argument('--archived',action='store_true');one.add_argument('--config');one.add_argument('--out',default='outputs/run');one.add_argument('--target',default='');one.add_argument('--seed',type=int);one.add_argument('--start',nargs=2,type=float);one.add_argument('--depth',help='constant or an aligned .npy/.npz relative-depth file');one.add_argument('--depth-kind',choices=['inverse_depth','relative_range'],default='inverse_depth');one.add_argument('--depth-checkpoint');one.add_argument('--detector-checkpoint');one.add_argument('--revision',default='main');one.add_argument('--allow-model-download',action='store_true');one.add_argument('--stimulus-bounds',nargs=4,type=float,metavar=('X1','Y1','X2','Y2'));one.add_argument('--valid-mask',help='Explicit aligned binary mask (.npy/.npz or image); never inferred from input darkness')
     vis=sub.add_parser('visualize');vis.add_argument('image');vis.add_argument('result');vis.add_argument('--out',default='outputs/dashboard.png');vis.add_argument('--step',type=int)
     batch=sub.add_parser('run-batch');batch.add_argument('images',nargs='+');batch.add_argument('--config');batch.add_argument('--target',default='');batch.add_argument('--out',default='outputs/batch')
     ev=sub.add_parser('evaluate');ev.add_argument('manifest');ev.add_argument('--config');ev.add_argument('--out',default='outputs/evaluation');ev.add_argument('--split',choices=['validation','test'],default='test');ev.add_argument('--seeds',nargs='+',type=int,default=[11,23,37])
@@ -35,7 +35,14 @@ def main():
     image=load_image(a.image)
     if a.command=='run-one':
         cfg=Config.load(a.config)
+        if a.archived: cfg.execution_path='archived'
         if a.seed is not None: cfg.seed=a.seed
+        cfg.experiment=dict(cfg.experiment)
+        if a.mode is not None:cfg.experiment['behavior_mode']=a.mode
+        if a.condition is not None:cfg.experiment['observation_condition']=a.condition
+        if a.duration is not None:cfg.experiment['fixed_time_ms']=a.duration*1000
+        if a.administrative_timeout is not None:cfg.experiment['administrative_timeout_ms']=a.administrative_timeout*1000
+        cfg.validate()
         if a.depth and a.depth_checkpoint: raise ValueError('Choose precomputed/dummy depth OR pretrained checkpoint')
         cfg.perception=dict(cfg.perception)
         if a.depth:cfg.perception['depth']={'provider':'constant'} if a.depth=='constant' else {'provider':'precomputed','path':a.depth,'kind':a.depth_kind}
@@ -43,10 +50,10 @@ def main():
         if a.detector_checkpoint:cfg.perception['objects']=dict(provider='transformers',model_id=a.detector_checkpoint,revision=a.revision,allow_download=a.allow_model_download)
         if cfg.perception.get('objects',{}).get('provider','classical')=='classical':
             import warnings
-            warnings.warn('Classical color-region provider selected: no semantic object recognition. Use configs/pretrained-cpu.yaml for verified pretrained providers.',UserWarning)
+            warnings.warn('Unlabeled structural provider selected: no semantic object recognition. Use configs/pretrained-cpu.yaml for verified pretrained providers.',UserWarning)
         kwargs={}
         if a.stimulus_bounds is not None or a.valid_mask:
-            if not cfg.active.get('enabled'):raise ValueError('Explicit masks require an opt-in Phase 4B configuration')
+            if cfg.execution_path=='archived' and not cfg.active.get('enabled'):raise ValueError('Archived masks require a Phase 4B configuration')
             if a.stimulus_bounds is not None:kwargs['stimulus_bounds']=a.stimulus_bounds
             if a.valid_mask:
                 import numpy as np,cv2
@@ -58,7 +65,13 @@ def main():
                 kwargs['valid_mask']=mask.astype(bool)
         result=run(image,cfg,image_id=Path(a.image).stem,target=a.target,start=a.start,**kwargs);out=Path(a.out);out.mkdir(parents=True,exist_ok=True);(out/'run.json').write_text(json.dumps(result,indent=2,allow_nan=False), encoding='utf-8');dashboard(image,result,out/'dashboard.png');
         if cfg.active.get('enabled'):(out/'decision-traces.jsonl').write_text(''.join(json.dumps(f['decision_trace'],allow_nan=False)+'\n' for f in result['fixations']),encoding='utf-8')
-        if cfg.active.get('enabled'):
+        if result['model']=='autonomous-dense-field':
+            from .viz.autonomous import write_autonomous_html
+            from .experiment.trajectory import inspect_at
+            write_autonomous_html(image,result,out/'inspector.html')
+            if cfg.experiment.get('observation_condition')=='fixed_time':
+                (out/'fixed-time-view.json').write_text(json.dumps(inspect_at(result,cfg.experiment.get('fixed_time_ms',5000)),allow_nan=False),encoding='utf-8')
+        elif cfg.active.get('enabled'):
             from .viz.active import write_active_html
             write_active_html(image,result,out/'inspector.html')
         else:write_html(image,result,out/'inspector.html')

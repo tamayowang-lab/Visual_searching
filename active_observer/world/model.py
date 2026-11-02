@@ -42,9 +42,9 @@ class ObjectMemory:
     def to_dict(self):return asdict(self)
 
 class World:
-    def __init__(self,width,height,config):
+    def __init__(self,width,height,config,*,spatial_grid=True):
         self.width=width;self.height=height;self.config=config;self.objects=[];self.counter=0;self.time=0.;self.consecutive_stays=0
-        self.grid=[dict(id=f"region-{y}-{x}",x=(x+.5)*width/config.grid_columns,y=(y+.5)*height/config.grid_rows,coverage=0.,last_seen=None,visits=0) for y in range(config.grid_rows) for x in range(config.grid_columns)]
+        self.grid=[dict(id=f"region-{y}-{x}",x=(x+.5)*width/config.grid_columns,y=(y+.5)*height/config.grid_rows,coverage=0.,last_seen=None,visits=0) for y in range(config.grid_rows) for x in range(config.grid_columns)] if spatial_grid else []
     def update(self,detections,observation,elapsed_ms: float):
         cfg=self.config;self.time+=elapsed_ms
         if not cfg.memory_enabled:self.objects=[]
@@ -76,3 +76,10 @@ class World:
             x,y=int(cell['x']),int(cell['y'])
             if observation.central[min(y,self.height-1),min(x,self.width-1)]:cell['coverage']=min(1,cell['coverage']+elapsed_ms/300);cell['last_seen']=self.time;cell['visits']+=1
     def snapshot(self):return dict(time_ms=self.time,objects=[m.to_dict() for m in self.objects],regions=[dict(c) for c in self.grid],registry_limit=128,frame='image-anchored relative camera frame',consecutive_stays=self.consecutive_stays)
+
+
+def decay_without_observation(world,elapsed_ms):
+    world.time+=elapsed_ms
+    for m in world.objects:
+        m.confidence*=np.exp(-elapsed_ms/world.config.memory_decay_ms);m.ior*=np.exp(-elapsed_ms/1200);m.visibility=0.;m.state='remembered' if m.confidence>.2 else 'uncertain'
+        m.identity_uncertainty=min(1,m.identity_uncertainty+.02*elapsed_ms/world.config.memory_decay_ms);m.position_uncertainty=min(1,m.position_uncertainty+.04*elapsed_ms/world.config.memory_decay_ms)

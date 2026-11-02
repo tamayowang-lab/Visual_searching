@@ -45,8 +45,11 @@ def run_phase2(image: np.ndarray,config: Config | None=None,*,image_id="image",t
 
 
 def run(image,config=None,**kwargs):
-    """Dispatch without changing the archived Phase-2 numerical path by default."""
+    """Default to the autonomous observer; old dispatch requires execution_path=archived."""
     cfg=(config or Config()).validate()
+    if cfg.execution_path=='autonomous':
+        from active_observer.autonomous.runner import run_autonomous
+        return run_autonomous(image,cfg,**kwargs)
     if cfg.experiment.get('enabled',False):
         from active_observer.experiment.runner import run_experiment
         return run_experiment(image,cfg,**kwargs)

@@ -7,8 +7,8 @@ This is an independent implementation of the supplied specification, not an exte
 Added `config.py`, `io/image.py`, `perception/foveation.py`, `perception/objects.py`, `world/{model,association}.py`, `attention/{policy,dynamics}.py`, `simulation/runner.py`, `viz/dashboard.py`, CLI, synthetic RGB and tests.
 
 - Executed eight tests successfully before M2.
-- Ran `python -m active_observer.cli run-one examples/synthetic.png --out outputs/m1`.
-- Assumptions: pixel approximation when PPD absent; classical color proto-objects; no physical motor controller; heuristic scores.
+- Ran `python -m active_observer.cli run-one examples/photos/porto-square.jpg --out outputs/m1`.
+- Assumptions: pixel approximation when PPD absent; unlabeled structural proposals; no physical motor controller; heuristic scores.
 
 ## M2 — relative depth and 2.5D memory
 

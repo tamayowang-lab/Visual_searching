@@ -1,0 +1,37 @@
+{
+  "source_url": "https://raw.githubusercontent.com/David-Ef/salient360Toolbox/main/data/stimuli/1_PortoRiverside.png",
+  "source_sha256": "e8f68622ffa3ad306d35253796376934c84d5753397d073983cfaa0be2c3f72f",
+  "source_note": "Same Porto panorama used by Gaze Lab; perspective projection only. Repository MIT license; stimulus-specific license not separately documented.",
+  "scenes": [
+    {
+      "id": "porto-square",
+      "name": "Porto \u00b7 Riverside square",
+      "path": "examples/photos/porto-square.jpg",
+      "target": "person",
+      "yaw_degrees": 0.0,
+      "fov_degrees": 90,
+      "pitch_degrees": -5,
+      "sha256": "4d469c53966afc041755f754c34839a070e79236a83c64824fcbca6b792edc8e"
+    },
+    {
+      "id": "porto-promenade",
+      "name": "Porto \u00b7 Promenade",
+      "path": "examples/photos/porto-promenade.jpg",
+      "target": "person",
+      "yaw_degrees": -55.0,
+      "fov_degrees": 90,
+      "pitch_degrees": -5,
+      "sha256": "e7649eb86c32366bb30c1c29d195ebc72e98846150f92bf70a5b1cfc0a4efd12"
+    },
+    {
+      "id": "porto-waterfront",
+      "name": "Porto \u00b7 Waterfront",
+      "path": "examples/photos/porto-waterfront.jpg",
+      "target": "person",
+      "yaw_degrees": 65.0,
+      "fov_degrees": 90,
+      "pitch_degrees": -5,
+      "sha256": "ccd6fb70856de91d943567e865ed727b43e5396b798de830c217f954fee4fc92"
+    }
+  ]
+}
